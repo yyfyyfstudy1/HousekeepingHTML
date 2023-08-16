@@ -1,4 +1,4 @@
-# capstone-admin-web
+# elec5619_front_end
 
 ## Project setup
 ```
