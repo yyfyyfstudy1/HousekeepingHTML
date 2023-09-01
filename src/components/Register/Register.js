@@ -24,7 +24,7 @@ export default {
                                 this.$message.success("The verity email has sent");
                                 this.$router.push('/');
                             } else {
-                                this.$message.error(res.data);
+                                this.$message.error(res.msg);
                             }
                         })
                         .finally(() => {
