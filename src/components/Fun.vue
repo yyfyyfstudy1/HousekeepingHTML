@@ -51,7 +51,7 @@ export default {
 
   mounted() {
     // init the page
-    this.$axios.get(this.$httpurl + '/taskTag/getTags').then(res => res.data).then(res => {
+    this.$axios.get(this.$httpurl + '/public/taskTag/getTags').then(res => res.data).then(res => {
       console.log(res)
       if(res.code===200){
         this.tags = res.data;
@@ -72,7 +72,7 @@ export default {
     handleSubmit() {
       // Simulate submitting and receiving taskDescribe and taskImageU
       let inputText = this.inputText;
-      this.$axios.post(this.$httpurl + '/tasks/getDistribute', {
+      this.$axios.post(this.$httpurl + '/public/tasks/getDistribute', {
         cv: inputText,
         tags: this.selectedTagsID
       })

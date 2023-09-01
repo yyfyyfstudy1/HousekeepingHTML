@@ -17,9 +17,9 @@
 </template>
 
 <script>
-import Aside from "./Aside.vue"
-import Header from "./Header.vue"
-import Main from  "./Main.vue"
+import Aside from "../Common/Aside.vue"
+import Header from "../Common/Header.vue"
+import Main from "./Main.vue"
 export default {
   name: "Index",
   components: {Aside, Header, Main},

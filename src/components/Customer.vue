@@ -31,7 +31,7 @@ export default {
 
   mounted() {
     // init the page
-    this.$axios.get(this.$httpurl + '/taskTag/getTags').then(res => res.data).then(res => {
+    this.$axios.get(this.$httpurl + '/public/taskTag/getTags').then(res => res.data).then(res => {
       console.log(res)
       if(res.code===200){
         this.tags = res.data;
@@ -51,7 +51,7 @@ export default {
   methods: {
     handleButtonClick() {
       console.log("按钮被点击了！");
-      this.$axios.post(this.$httpurl + '/tasks/postTask', {
+      this.$axios.post(this.$httpurl + '/public/tasks/postTask', {
         taskDescribe:  this.inputValue,
         taskImgURL: 'https://pic.616pic.com/ys_bnew_img/00/16/95/OjCm8gnt48.jpg',
         taskUserID: '用户ID',

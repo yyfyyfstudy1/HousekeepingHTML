@@ -21,6 +21,11 @@
       <i class="el-icon-s-home"></i>
       <span slot="title">customer</span>
     </el-menu-item>
+
+    <el-menu-item index="/chatRoom">
+      <i class="el-icon-s-promotion"></i>
+      <span slot="title">Chat Room</span>
+    </el-menu-item>
   </el-menu>
 </template>
 
