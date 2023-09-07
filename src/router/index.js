@@ -1,10 +1,12 @@
 import VueRouter from 'vue-router'
 import admin from '../components/AdminDashboard/Admin.vue'
-import fun from '../components/Fun'
+import findJob from '../components/FindJob'
 import customer from "@/components/Customer";
 import chatRoom from "../components/ChatRoom/ChatRoom.vue"
 import login from "../components/Login/login.vue"
 import register from "../components/Register/Register.vue";
+import selectHome from "../components/SelectHome/SelectHome.vue";
+import showMatchWork from "../components/ShowMatchWork/ShowMatchWork.vue";
 import store from '../store'; // 导入Vuex store
 
 const router = new VueRouter({
@@ -27,9 +29,9 @@ const router = new VueRouter({
             meta: { requiresAuth: true, allowedRoles: ['ROLE_ADMIN', 'ROLE_SUPERADMIN'] }
         },
         {
-            path: '/fun',
-            name: 'fun',
-            component: fun,
+            path: '/findJob',
+            name: 'findJob',
+            component: findJob,
             meta: { requiresAuth: true, allowedRoles: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN'] }
         },
         {
@@ -42,6 +44,19 @@ const router = new VueRouter({
             path: '/chatRoom',
             name: 'chatRoom',
             component: chatRoom,
+            meta: { requiresAuth: true, allowedRoles: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN'] }
+        },
+        {
+            path: '/selectHome',
+            name: 'selectHome',
+            component: selectHome,
+            meta: { requiresAuth: true, allowedRoles: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN'] }
+        },
+        {
+            path: '/showMatchWork',
+            name: 'showMatchWork',
+            component: showMatchWork,
+            props: true, // 允许通过 props 接收参数
             meta: { requiresAuth: true, allowedRoles: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN'] }
         }
     ]

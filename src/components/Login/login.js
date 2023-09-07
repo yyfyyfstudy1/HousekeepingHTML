@@ -25,7 +25,7 @@ export default {
 
                         console.log( "user info"+res.data.userInfo)
                         this.login({ token: res.data.authorization.token, role:this.loginRole, userInfo: this.userInfo }); // 使用映射的 action 方法
-                        this.$router.push('/customer');
+                        this.$router.push('/selectHome');
                     } else {
                         this.$message.error(res.data);
                     }

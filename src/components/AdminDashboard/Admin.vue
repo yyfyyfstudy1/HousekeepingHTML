@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import Aside from "../Common/Aside.vue"
-import Header from "../Common/Header.vue"
+import Aside from "./AdminCommon/Aside.vue"
+import Header from "./AdminCommon/Header.vue"
 import Main from "./Main.vue"
 export default {
   name: "Index",

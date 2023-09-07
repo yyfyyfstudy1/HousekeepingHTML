@@ -11,6 +11,7 @@ const store = new Vuex.Store({
         isLoggedIn: false, // 是否登录的状态
         Role: [],
         userInfo:{},
+        taskData: [], // 存储任务数据的数组
         // 为admin和superAdmin的Aside分别赋值
         adminSidebarLinks: [
             { index: '/Home', icon: 'el-icon-s-home', title: 'Main' },
@@ -38,6 +39,9 @@ const store = new Vuex.Store({
         setUserInfo(state, value) {
             state.userInfo = value;
         },
+        setTaskData(state, data) {
+            state.taskData = data;
+        }
     },
     actions: {
         login({ commit }, { token, role, userInfo}) { // 使用对象参数
@@ -51,7 +55,12 @@ const store = new Vuex.Store({
             commit('setRole', null);
             commit('setLoggedIn', false);
             commit('setUserInfo', null);
+            commit('setTaskData', null);
         },
+        setTaskData({commit}, {taskData}){
+            commit('setTaskData', taskData)
+        }
+
     },
     getters: {
         getToken: state => state.token,
@@ -60,7 +69,8 @@ const store = new Vuex.Store({
         getUserInfo: state => state.userInfo,
         sidebarLinks(state) {
             return state.Role.includes('SUPERADMIN') ? state.superAdminSidebarLinks : state.adminSidebarLinks;
-        }
+        },
+        getTaskData: state => state.taskData
     },
 });
 
