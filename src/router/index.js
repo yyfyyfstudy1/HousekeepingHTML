@@ -1,6 +1,6 @@
 import VueRouter from 'vue-router'
 import admin from '../components/AdminDashboard/Admin.vue'
-import findJob from '../components/FindJob'
+import findJob from '../components/FindJob/FindJob.vue'
 import customer from "@/components/Customer";
 import chatRoom from "../components/ChatRoom/ChatRoom.vue"
 import login from "../components/Login/login.vue"

@@ -103,7 +103,7 @@ export default {
 }
 .tag {
   display: inline-block;
-  background-color: #409eff;
+  background-color: #1a5400;
   color: white;
   padding: 2px 6px;
   margin-right: 5px;

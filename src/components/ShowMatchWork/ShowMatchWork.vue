@@ -49,7 +49,7 @@ export default {
     };
   },
   props: {
-    inputText: String,
+    resumeForm: {},
     selectedTagsID: Array
   },
   created() {
@@ -71,9 +71,8 @@ export default {
       this.loading = true;
       // 使用 Axios从服务器获取数据
       // Simulate submitting and receiving taskDescribe and taskImageU
-      let inputText = this.inputText;
       this.$axios.post(this.$httpurl + '/public/tasks/getDistribute', {
-        cv: inputText,
+        cv: this.resumeForm.combineText,
         tags: this.selectedTagsID
       })
           .then(res => res.data)
