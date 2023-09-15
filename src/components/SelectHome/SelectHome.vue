@@ -28,7 +28,7 @@ export default {
   components: {Header},
   methods: {
     navigateToPage1() {
-      this.$router.push("/page1");
+      this.$router.push("/EmployerPostJob");
     },
     navigateToFindJob() {
       this.$router.push("/findJob");

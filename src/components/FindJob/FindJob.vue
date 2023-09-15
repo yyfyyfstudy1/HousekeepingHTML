@@ -20,8 +20,9 @@
 
       <el-form :model="resumeForm">
         <el-form-item label="job type" class="custom-label">
-          <el-select v-model="resumeForm.jobType" placeholder="Please select"  @change="handleSelectionChange">
-            <el-option v-for="jobType in jobTypes" :key="jobType.id" :label="jobType.taskCategory" :value="jobType.id"></el-option>
+          <el-select v-model="resumeForm.jobType" placeholder="Please select" @change="handleSelectionChange">
+            <el-option v-for="jobType in jobTypes" :key="jobType.id" :label="jobType.taskCategory"
+                       :value="jobType.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="Expected Salary" class="custom-label">
@@ -40,7 +41,9 @@
           </el-checkbox-group>
           <div v-if="selectedTags.length > 0" class="selected-tags">
             <p style="color: white">selected tags：</p>
-            <span class="tag" v-for="(tag, index) in selectedTags" :key="index" style="margin-top: 10px">{{ tag.tagName }}</span>
+            <span class="tag" v-for="(tag, index) in selectedTags" :key="index" style="margin-top: 10px">{{
+                tag.tagName
+              }}</span>
           </div>
         </div>
       </div>
@@ -61,17 +64,22 @@
 <style>
 /* 隐藏滚动条轨道，但保留滚动功能 */
 
-.outer-container{
-  background-color: #0D1E48; min-height: 100vh;  overflow: auto;
+.outer-container {
+  background-color: #0D1E48;
+  min-height: 100vh;
+  overflow: auto;
 }
+
 .outer-container::-webkit-scrollbar {
   width: 0.2em; /* 调整滚动条的宽度 */
 }
+
 .container {
   max-width: 700px;
   margin: 0 auto;
   padding: 20px;
 }
+
 /* 样式可以根据您的需要进行调整 */
 .left-section {
   width: 40%;
@@ -79,14 +87,17 @@
   margin-left: 20px;
   margin-top: 40px;
 }
-.selected-tags{
+
+.selected-tags {
   margin-top: 20px;
 }
+
 /* 自定义 label 的颜色 */
 .custom-label label {
   color: #ffffff; /* 这里设置你想要的颜色 */
   font-weight: bold;
 }
+
 .right-section {
   width: 50%;
   float: right;
@@ -96,6 +107,7 @@
 .tag-layout {
   margin-top: 20px;
 }
+
 .reply-box {
   margin-top: 20px;
   border: 1px solid #ccc;

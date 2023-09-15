@@ -1,12 +1,13 @@
 import VueRouter from 'vue-router'
 import admin from '../components/AdminDashboard/Admin.vue'
 import findJob from '../components/FindJob/FindJob.vue'
-import customer from "@/components/Customer";
+import EmployerPostJob from "../components/EmployerPostJob/EmployerPostJob.vue";
 import chatRoom from "../components/ChatRoom/ChatRoom.vue"
 import login from "../components/Login/login.vue"
 import register from "../components/Register/Register.vue";
 import selectHome from "../components/SelectHome/SelectHome.vue";
 import showMatchWork from "../components/ShowMatchWork/ShowMatchWork.vue";
+import postJobDetail from "../components/EmployerPostJob/PostJobDetail.vue";
 import store from '../store'; // 导入Vuex store
 
 const router = new VueRouter({
@@ -35,9 +36,9 @@ const router = new VueRouter({
             meta: { requiresAuth: true, allowedRoles: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN'] }
         },
         {
-            path: '/customer',
-            name: 'customer',
-            component: customer,
+            path: '/EmployerPostJob',
+            name: 'EmployerPostJob',
+            component: EmployerPostJob,
             meta: { requiresAuth: true, allowedRoles: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN'] }
         },
         {
@@ -58,6 +59,14 @@ const router = new VueRouter({
             component: showMatchWork,
             props: true, // 允许通过 props 接收参数
             meta: { requiresAuth: true, allowedRoles: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN'] }
+        },
+        {
+            path: '/postJobDetail',
+            name: 'postJobDetail',
+            component: postJobDetail,
+            props: true, // 允许通过 props 接收参数
+            meta: { requiresAuth: true, allowedRoles: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN'] }
+
         }
     ]
 })

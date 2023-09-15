@@ -1,36 +1,40 @@
 <template>
-  <div style="background-color: #0D1E48; height: 100vh">
+  <div style="display: flex; flex-direction: column; min-height: 100vh; background-color: #0D1E48;">
     <Header></Header>
-    <!-- 使用 v-if 控制加载框和遮罩层的显示 -->
     <div v-if="loading" class="loading-overlay">
       <el-loading :visible="loading" text="Waiting for Job distribution" :full-screen="true">
-        <!-- 页面内容 -->
         <div class="content">
-          <!-- 数据内容 -->
           <img src="../../assets/Gear-0.2s-200px.gif" alt="Loading...">
           <p style="color: #000000; font-weight: bold">Loading for the job distribute...</p>
         </div>
-
       </el-loading>
     </div>
     <div class="card-container">
-      <!-- 使用 v-for 循环渲染卡片 -->
-      <el-card class="card" shadow="hover" v-for="(item, index) in data" :key="index">
-        <div class="card-content">
-          <img :src="item.task.taskImageUrl" :alt="'Image ' + (index + 1)">
-          <h3>{{ item.task.similarity }}</h3>
-          <p>{{ item.task.taskDescribe }}</p>
-          <p>{{ item.gptReply }}</p>
+      <el-card class="outer-card" shadow="hover" v-for="(item, index) in data" :key="index">
+        <h5 class="task-title">{{ item.task.taskTitle }}</h5>
+        <div class="inner-card" shadow="hover">
+            <p  style="color: white;"><span style="color: #ffda00">Time: </span> {{ item.task.taskBeginTime }}</p>
+            <p style="color: white; margin-top: 10px"><span style="color: #ffda00">Address: </span>{{ item.task.taskLocation }}</p>
+            <p style="color: white; margin-top: 10px"><span style="color: #ffda00">Salary: </span>$ {{ item.task.taskSalary }}</p>
+            <p style="color: white; margin-top: 10px"><span style="color: #ffda00">Estimated Time: </span>{{ item.task.taskEstimatedDuration }} / hour</p>
+            <p style="color: white; margin-top: 10px">
+              <span style="color: #ffda00">Task detail: </span>{{ truncate(item.task.taskDescribe, 100) }}
+            </p>
+
+          <!-- 图片按钮 -->
+          <el-button
+              style="margin-top: 20px; margin-left: 40px"
+              @click="showBigImage(item.task.taskImageUrl)" type="warning">see the task image</el-button>
         </div>
       </el-card>
+      <!-- 模态对话框 -->
+      <el-dialog :visible.sync="dialogVisible" width="50%" style="background-color: #333333">
+        <img :src="bigImageUrl" class="big-image" />
+      </el-dialog>
     </div>
-
-    <!-- 按钮 -->
-    <!-- 包裹按钮的 div -->
     <div class="centered-button">
       <el-button type="primary" @click="handleButtonClick" class="refreshButton">Refresh task</el-button>
     </div>
-
   </div>
 </template>
 
@@ -45,20 +49,23 @@ export default {
   data() {
     return {
       data: [], // 用于存储从服务器获取的数据数组
-      loading: false // 控制加载框和遮罩层的显示
+      loading: false, // 控制加载框和遮罩层的显示
+      dialogVisible: false, // 控制模态对话框的显示
+      bigImageUrl: '', // 用于存储大图的 URL
     };
   },
   props: {
     resumeForm: {},
     selectedTagsID: Array
   },
+
   created() {
     const oldTaskData = store.getters.getTaskData;
     console.log(oldTaskData)
-    if (oldTaskData.length !== 0){
+    if (oldTaskData.length !== 0) {
       // set the old task data
       this.data = oldTaskData
-    }else {
+    } else {
       this.fetchData();
     }
 
@@ -66,6 +73,10 @@ export default {
 
   methods: {
     ...mapActions(['setTaskData']),
+    showBigImage(url) {
+      this.bigImageUrl = url; // 设置大图的 URL
+      this.dialogVisible = true; // 显示模态对话框
+    },
     fetchData() {
       // 显示加载框和遮罩层
       this.loading = true;
@@ -89,6 +100,12 @@ export default {
             }
           });
     },
+    truncate(text, length) {
+      if (text.length > length) {
+        return text.substring(0, length) + '...';
+      }
+      return text;
+    },
     handleButtonClick() {
       // 处理按钮点击事件
       // 可以在这里执行一些逻辑
@@ -99,56 +116,68 @@ export default {
 </script>
 
 <style scoped>
-/* 包裹按钮的 div 样式 */
-
-.refreshButton{
-  margin-top: 20px;
+.refreshButton {
+  margin-top: 10px;
   margin-bottom: 20px;
 }
+
 .centered-button {
   display: flex;
-  justify-content: center; /* 水平居中 */
-  align-items: center; /* 垂直居中 */
-  margin-bottom: 50px; /* 可以根据需要调整按钮与内容的间距 */
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
   background-color: #0D1E48;
 }
 
 .card-container {
   display: flex;
   justify-content: space-around;
-  margin: 20px;
+  flex-wrap: wrap;
 }
 
-.card {
+.outer-card {
   width: 300px;
-  text-align: center;
-  background-color: white;
-  padding: 20px;
+  height: 400px;
+  background-color: #0D1E48;
   border-radius: 10px;
+  border: 2px solid #ffda00; /* 设置边框样式 */
+  margin: 10px;
 }
 
-.card img {
-  width: 100px;
-  height: 100px;
-  margin-bottom: 10px;
+.inner-card {
+  background-color: #0D1E48;
+  border-radius: 8px;
+  border: 1px solid #ffffff; /* 设置边框样式 */
+  padding: 10px;
+  text-align: left;
 }
 
-.card-content h3 {
+.task-title {
   font-size: 18px;
   margin-bottom: 10px;
+  color: white;
 }
 
-/* 遮罩层样式 */
+.task-details p {
+  margin: 5px;
+}
+
 .loading-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* 半透明黑色遮罩层 */
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999; /* 确保遮罩层在最上层 */
+  z-index: 999;
+}
+
+/* 大图的样式 */
+.big-image {
+  max-width: 100%;
+  max-height: 100%;
 }
 </style>
