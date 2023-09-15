@@ -8,7 +8,6 @@
         <el-form-item class="input-container">
           <img slot="label" src="../../assets/name.png" alt="Name Icon" class="profile-icon"/>
           <el-input v-model="name" placeholder="Enter name"></el-input>
-
         </el-form-item>
 
         <!-- Address Field -->
