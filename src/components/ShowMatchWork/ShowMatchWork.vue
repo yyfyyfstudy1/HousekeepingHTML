@@ -12,7 +12,7 @@
     <div class="card-container">
       <el-card class="outer-card" shadow="hover" v-for="(item, index) in data" :key="index">
         <h5 class="task-title">{{ item.task.taskTitle }}</h5>
-        <div class="inner-card" shadow="hover">
+        <div class="inner-card" shadow="hover" @click="handleCardClick(item.task.taskId)">
             <p  style="color: white;"><span style="color: #ffda00">Time: </span> {{ item.task.taskBeginTime }}</p>
             <p style="color: white; margin-top: 10px"><span style="color: #ffda00">Address: </span>{{ item.task.taskLocation }}</p>
             <p style="color: white; margin-top: 10px"><span style="color: #ffda00">Salary: </span>$ {{ item.task.taskSalary }}</p>
@@ -21,10 +21,14 @@
               <span style="color: #ffda00">Task detail: </span>{{ truncate(item.task.taskDescribe, 100) }}
             </p>
 
-          <!-- 图片按钮 -->
-          <el-button
-              style="margin-top: 20px; margin-left: 40px"
-              @click="showBigImage(item.task.taskImageUrl)" type="warning">see the task image</el-button>
+          <el-image src="https://images.openai.com/blob/dc934ef7-f0cb-4f5f-bbae-51aa7b0550d9/openai-api.jpg?trim=0,0,0,0&width=3200"
+                    style="width: 100px; height: 100px; margin: 0 auto; display: block; padding-top: 10px"
+                    @click.stop="showBigImage(item.task.taskImageUrl)">
+          </el-image>
+          <div class="flex-container-gpttext">
+            <img src="../../assets/robot.png" alt="System reason" style="width: 30px; height: 30px;"/>
+            <p style="color: wheat; padding-left:10px">{{ truncate(item.gptReply, 100) }}</p>
+          </div>
         </div>
       </el-card>
       <!-- 模态对话框 -->
@@ -38,84 +42,11 @@
   </div>
 </template>
 
-<script>
-import Header from "@/components/Header";
-import store from '../../store';
-import {mapActions} from "vuex"; // 导入Vuex store
-export default {
-  name: "ShowMatchWork",
-  components: {Header},
-
-  data() {
-    return {
-      data: [], // 用于存储从服务器获取的数据数组
-      loading: false, // 控制加载框和遮罩层的显示
-      dialogVisible: false, // 控制模态对话框的显示
-      bigImageUrl: '', // 用于存储大图的 URL
-    };
-  },
-  props: {
-    resumeForm: {},
-    selectedTagsID: Array
-  },
-
-  created() {
-    const oldTaskData = store.getters.getTaskData;
-    console.log(oldTaskData)
-    if (oldTaskData.length !== 0) {
-      // set the old task data
-      this.data = oldTaskData
-    } else {
-      this.fetchData();
-    }
-
-  },
-
-  methods: {
-    ...mapActions(['setTaskData']),
-    showBigImage(url) {
-      this.bigImageUrl = url; // 设置大图的 URL
-      this.dialogVisible = true; // 显示模态对话框
-    },
-    fetchData() {
-      // 显示加载框和遮罩层
-      this.loading = true;
-      // 使用 Axios从服务器获取数据
-      // Simulate submitting and receiving taskDescribe and taskImageU
-      this.$axios.post(this.$httpurl + '/public/tasks/getDistribute', {
-        cv: this.resumeForm.combineText,
-        tags: this.selectedTagsID
-      })
-          .then(res => res.data)
-          .then(res => {
-            // 隐藏加载框和遮罩层
-            this.loading = false;
-
-            if (res.code === 200) {
-              this.data = res.data;
-              // save the task data to the VueX
-              this.setTaskData({taskData: this.data})
-            } else {
-              alert("failed to get the data");
-            }
-          });
-    },
-    truncate(text, length) {
-      if (text.length > length) {
-        return text.substring(0, length) + '...';
-      }
-      return text;
-    },
-    handleButtonClick() {
-      // 处理按钮点击事件
-      // 可以在这里执行一些逻辑
-    }
-  }
-}
-
+<script src="./ShowMatchWork.js">
 </script>
 
 <style scoped>
+
 .refreshButton {
   margin-top: 10px;
   margin-bottom: 20px;
@@ -128,16 +59,27 @@ export default {
   margin-bottom: 50px;
   background-color: #0D1E48;
 }
+.el-image {
+  margin: 0 auto;
+  display: block;
+  width: 100px; /* 设置你希望的宽度 */
+  height: 100px; /* 设置你希望的高度 */
+}
 
 .card-container {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
 }
+.flex-container-gpttext {
+  display: flex;
+  margin-top: 15px;
+  align-items: center;
+}
 
 .outer-card {
   width: 300px;
-  height: 400px;
+  height: 450px;
   background-color: #0D1E48;
   border-radius: 10px;
   border: 2px solid #ffda00; /* 设置边框样式 */
