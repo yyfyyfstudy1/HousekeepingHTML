@@ -5,6 +5,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import './assets/global.css';
 import axios from "axios";
 import store from './store'; // 引入 Vuex store
+import * as VueGoogleMaps from "vue2-google-maps";
 // 引入
 import router from './router'
 import VueRouter from 'vue-router'
@@ -14,7 +15,12 @@ Vue.prototype.$httpurl = 'http://localhost:8082'
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.use(VueRouter) // router plugin
-
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: "AIzaSyDM_dL6KmNoXYqXsAR8HFsYAftHpIVk4Mg",
+    libraries: "places"
+  }
+});
 new Vue({
   render: h => h(App),
   //注册

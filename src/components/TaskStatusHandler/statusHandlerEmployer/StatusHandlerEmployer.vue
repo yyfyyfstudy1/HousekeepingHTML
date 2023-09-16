@@ -9,19 +9,22 @@
         <el-step title="Payment successful"></el-step>
       </el-steps>
       <div>
-        <el-button v-if="!isConfirmed" @click="changeStatus(1)">Waiting for you to confirm the order</el-button>
 
         <!--        <el-button @click="changeStatus(2)">2</el-button>-->
-<!--        <el-button @click="changeStatus(3)">3</el-button>-->
-<!--        <el-button @click="changeStatus(4)">4</el-button>-->
+        <!--        <el-button @click="changeStatus(3)">3</el-button>-->
+        <!--        <el-button @click="changeStatus(4)">4</el-button>-->
       </div>
-      <transition name="fade" mode="out-in">
-        <div :key="active">
+
+      <div :key="active">
+        <div v-if="active === 0">
+          <el-button v-if="!isConfirmed" @click="changeStatus(1)">Waiting for you to confirm the order</el-button>
+        </div>
+        <transition name="fade" mode="out-in">
           <div v-if="active === 1">
             Labor is on the way
           </div>
           <div v-if="active === 2">
-           Labor is working....
+            Labor is working....
           </div>
           <div v-if="active === 3">
             Waiting for the payment
@@ -29,8 +32,8 @@
           <div v-if="active === 4">
             The task have finished ! waiting for your next use
           </div>
-        </div>
-      </transition>
+        </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -43,21 +46,18 @@
 .custom-steps .el-step__title.is-finish {
   color: #FFF;
 }
+
 .custom-steps .el-step__title.is-wait {
   color: #aaa;
 }
+
 .custom-steps .el-step__title.is-process {
   color: #FFF;
   font-weight: bold;
 }
+
 .status-text {
   color: #FFF;
 }
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 1s;
-}
 
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}
 </style>
