@@ -9,8 +9,9 @@
         <el-step title="Payment successful"></el-step>
       </el-steps>
       <div>
-        <el-button @click="changeStatus(1)">Waiting for you confirm the order</el-button>
-<!--        <el-button @click="changeStatus(2)">2</el-button>-->
+        <el-button v-if="!isConfirmed" @click="changeStatus(1)">Waiting for you to confirm the order</el-button>
+
+        <!--        <el-button @click="changeStatus(2)">2</el-button>-->
 <!--        <el-button @click="changeStatus(3)">3</el-button>-->
 <!--        <el-button @click="changeStatus(4)">4</el-button>-->
       </div>
@@ -34,31 +35,7 @@
   </div>
 </template>
 
-<script>
-import Header from "../../Header.vue"
-import store from '../../../store';
-export default {
-  components: {
-    Header,
-  },
-  mounted() {
-    const id = this.$route.query.id;
-    this.taskId = id;
-    console.log("接收到的 id 参数为：", id);
-
-  },
-  data() {
-    return {
-      taskId:null,
-      active: 0,  // 当前的状态
-    };
-  },
-  methods: {
-    changeStatus(status) {
-      this.active = status;
-    },
-  },
-};
+<script src="./StatusHandlerEmployer.js">
 </script>
 
 <style>

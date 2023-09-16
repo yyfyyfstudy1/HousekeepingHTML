@@ -9,10 +9,10 @@
         <el-step title="Payment successful"></el-step>
       </el-steps>
       <div>
-        <el-button @click="changeStatus(1)">商家已接单</el-button>
-        <el-button @click="changeStatus(2)">骑手赶往商家</el-button>
-        <el-button @click="changeStatus(3)">骑手在送货</el-button>
-        <el-button @click="changeStatus(4)">骑手已送达</el-button>
+<!--        <el-button @click="changeStatus(1)">商家已接单</el-button>-->
+<!--        <el-button @click="changeStatus(2)">骑手赶往商家</el-button>-->
+<!--        <el-button @click="changeStatus(3)">骑手在送货</el-button>-->
+<!--        <el-button @click="changeStatus(4)">骑手已送达</el-button>-->
       </div>
       <transition name="fade" mode="out-in">
         <div :key="active">
@@ -37,25 +37,74 @@
 <script>
 import Header from "../../Header.vue"
 import store from '../../../store';
+let socket;
 export default {
   components: {
     Header,
   },
+
   mounted() {
     const id = this.$route.query.id;
     this.taskId = id;
     console.log("接收到的 id 参数为：", id);
 
+    // 开始接收后端传递的消息
+    this.initWebsocket();
+
   },
   data() {
     return {
       taskId:null,
-      active: 1,  // 当前的状态
+      active: 0,  // 当前的状态
     };
   },
   methods: {
     changeStatus(status) {
       this.active = status;
+    },
+    initWebsocket(){
+      this.user = store.getters.getUserInfo;
+      let userId = this.user.id;
+      if (typeof (WebSocket) == "undefined") {
+        console.log("您的浏览器不支持WebSocket");
+      } else {
+        console.log("您的浏览器支持WebSocket");
+        console.log(userId)
+        let socketUrl = "ws://localhost:8082/notification/" + userId;
+        if (socket != null) {
+          socket.close();
+          socket = null;
+        }
+        // 开启一个websocket服务
+        socket = new WebSocket(socketUrl);
+        //打开事件
+        socket.onopen = function () {
+          console.log("websocket已打开");
+        };
+        //  浏览器端收消息，获得从服务端发送过来的文本消息
+        // 使用箭头函数，让 this能访问到外部函数的作用域
+        socket.onmessage = (msg) => {
+          console.log("收到数据====" + msg.data)
+          const JsonMessage = JSON.parse(msg.data)
+          if (JsonMessage.status === "ok" && JsonMessage.taskId === this.taskId) {
+            this.isLoading = false;
+            this.$router.push({
+              path: '/taskStatusHandler/employer',
+              query: { id: this.taskId }
+            });
+
+          }
+        };
+
+        //关闭事件
+        socket.onclose = function () {
+          console.log("websocket已关闭");
+        };
+        //发生了错误事件
+        socket.onerror = function () {
+          console.log("websocket发生了错误");
+        }
+      }
     },
   },
 };

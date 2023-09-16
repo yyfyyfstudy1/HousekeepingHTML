@@ -12,6 +12,7 @@ export default {
             loading: false, // 控制加载框和遮罩层的显示
             dialogVisible: false, // 控制模态对话框的显示
             bigImageUrl: '', // 用于存储大图的 URL
+            userId:null
         };
     },
     props: {
@@ -20,6 +21,7 @@ export default {
     },
 
     created() {
+        this.userId = store.getters.getUserInfo.id;
         const oldTaskData = store.getters.getTaskData;
         console.log(oldTaskData)
         if (oldTaskData.length !== 0) {
@@ -43,10 +45,33 @@ export default {
                 type: 'warning'
             }).then(() => {
 
-                this.$router.push({
-                    path: '/taskStatusHandler/labor',
-                    query: { paramName: 'paramValue' }
-                });
+                // 告知后端更新stage并且推送给employer消息
+                const requestBody = {
+                    userRole: "labor",
+                    userId: this.userId,
+                    taskId: taskId
+                }
+                const token = store.getters.getToken;
+                this.$axios.post(this.$httpurl + '/public/tasks/takeTask', requestBody, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                    .then(res => res.data)
+                    .then(res => {
+                        if (res.code === 200) {
+                            this.$message.success("you have confirm the task")
+
+                            // drump to status bar
+                            this.$router.push({
+                                path: '/taskStatusHandler/labor',
+                                query: { id: taskId }
+                            });
+                        } else {
+                            alert("failed to get the data");
+                        }
+                    });
+
             }).catch(() => {
                 console.log("用户取消操作");
             });
