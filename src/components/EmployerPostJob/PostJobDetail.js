@@ -1,6 +1,6 @@
 import Header from "../Header.vue"
 import store from '../../store';
-import { Dialog } from 'element-ui'
+let socket;
 export default {
     components: {
         Header,
@@ -26,6 +26,8 @@ export default {
             selectedTags: [],
             jobTypes: [],
             tags: [],
+            isLoading: false,
+            taskId:null
         }
     },
 
@@ -55,6 +57,50 @@ export default {
         })
     },
     methods: {
+        initWebsocket(){
+            this.user = store.getters.getUserInfo;
+            let userId = this.user.id;
+            if (typeof (WebSocket) == "undefined") {
+                console.log("您的浏览器不支持WebSocket");
+            } else {
+                console.log("您的浏览器支持WebSocket");
+                console.log(userId)
+                let socketUrl = "ws://localhost:8082/notification/" + userId;
+                if (socket != null) {
+                    socket.close();
+                    socket = null;
+                }
+                // 开启一个websocket服务
+                socket = new WebSocket(socketUrl);
+                //打开事件
+                socket.onopen = function () {
+                    console.log("websocket已打开");
+                };
+                //  浏览器端收消息，获得从服务端发送过来的文本消息
+                // 使用箭头函数，让 this能访问到外部函数的作用域
+                socket.onmessage = (msg) => {
+                    console.log("收到数据====" + msg.data)
+                    const JsonMessage = JSON.parse(msg.data)
+                    if (JsonMessage.status === "ok" && JsonMessage.taskId === this.taskId) {
+                        this.isLoading = false;
+                        this.$router.push({
+                            path: '/taskStatusHandler/employer',
+                            query: { id: this.taskId }
+                        });
+
+                    }
+                };
+
+                //关闭事件
+                socket.onclose = function () {
+                    console.log("websocket已关闭");
+                };
+                //发生了错误事件
+                socket.onerror = function () {
+                    console.log("websocket发生了错误");
+                }
+            }
+        },
         chooseFile() {
             // 手动触发文件选择输入框
             console.log('选择文件按钮被点击');
@@ -159,6 +205,10 @@ export default {
                 .then(res => {
                     if (res.code === 200) {
                         this.$message.success("post task success")
+                        this.isLoading = true;
+                        this.taskId = res.data
+                        console.log(res.data)
+                        this.initWebsocket();
                     } else {
                         alert("failed to get the data");
                     }
