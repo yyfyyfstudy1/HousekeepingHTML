@@ -27,7 +27,7 @@ export default {
             jobTypes: [],
             tags: [],
             isLoading: false,
-            taskId:null
+            taskId: null
         }
     },
 
@@ -81,7 +81,7 @@ export default {
                 socket.onmessage = (msg) => {
                     console.log("收到数据====" + msg.data)
                     const JsonMessage = JSON.parse(msg.data)
-                    if (JsonMessage.status === "ok" && JsonMessage.taskId === this.taskId) {
+                    if (JsonMessage.status === "ok" && String(JsonMessage.taskId) == this.taskId) {
                         this.isLoading = false;
                         this.$router.push({
                             path: '/taskStatusHandler/employer',

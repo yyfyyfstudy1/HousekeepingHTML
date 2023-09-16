@@ -15,7 +15,6 @@ export default {
         // 打开websocket接收后端推送的任务phase
         this.initWebSocket();
 
-
     },
     data() {
         return {

@@ -86,12 +86,16 @@ export default {
         socket.onmessage = (msg) => {
           console.log("收到数据====" + msg.data)
           const JsonMessage = JSON.parse(msg.data)
-          if (JsonMessage.status === "ok" && JsonMessage.taskId === this.taskId) {
-            this.isLoading = false;
-            this.$router.push({
-              path: '/taskStatusHandler/employer',
-              query: { id: this.taskId }
-            });
+
+          console.log("Parsed data:", JsonMessage);
+          console.log("Current taskId:", this.taskId);
+          console.log("Typeof received taskId:", typeof JsonMessage.taskId);
+          console.log("Typeof this.taskId:", typeof this.taskId);
+
+          if (JsonMessage.status === "ok" && String(JsonMessage.taskId) === this.taskId) {
+            console.log(11111111)
+            // update the status bar
+              this.active =1;
 
           }
         };
