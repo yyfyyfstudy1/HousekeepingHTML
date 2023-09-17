@@ -93,6 +93,15 @@
 
       </el-main>
     </el-container>
+
+    <div v-if="isLoading" class="loading-overlay">
+      <div class="loading-container">
+        <h1 style="color: #eeeeee; margin-bottom: 30px">Post task successes !! system is matching the labor...</h1>
+        <div class="loading-icon">
+          <img src="../../assets/Gear-0.2s-200px.gif" alt="Loading...">
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -124,5 +133,28 @@
   font-weight: bold;
 }
 
+.loading-overlay {
+  position: fixed;  /* 从 absolute 改为 fixed */
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.85); /* 半透明的黑色背景 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* 确保遮罩层在最顶层 */
+}
+
+.loading-container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 子元素垂直居中 */
+}
+/* 加载图标样式 */
+.loading-icon {
+  /* 根据加载图标大小和样式来设置 */
+}
 
 </style>
