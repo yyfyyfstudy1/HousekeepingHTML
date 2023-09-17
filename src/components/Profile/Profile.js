@@ -1,4 +1,5 @@
 import Header from "../Header.vue";
+import store from "@/store";
 
 export default {
     components: {Header},
@@ -18,8 +19,10 @@ export default {
     methods: {
 
         fetchUserProfile() {
+            this.user = store.getters.getUserInfo;
+            let userId = this.user.id;
             this.$axios.get(this.$httpurl + '/user/profile', {
-                params: { id: 1 }  // 根据需要动态传入用户ID
+                params: { id: userId }  // 根据需要动态传入用户ID
             })
                 .then(response => {
                     if (response.data.code === 200) {
