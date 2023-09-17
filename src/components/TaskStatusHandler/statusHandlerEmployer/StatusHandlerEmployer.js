@@ -83,7 +83,7 @@ export default {
             } else {
                 console.log("您的浏览器支持WebSocket");
                 console.log(userId)
-                let socketUrl = "ws://localhost:8082/notification/" + userId;
+                let socketUrl = this.$websocketurl + "/notification/" + userId;
                 if (socket != null) {
                     socket.close();
                     socket = null;
