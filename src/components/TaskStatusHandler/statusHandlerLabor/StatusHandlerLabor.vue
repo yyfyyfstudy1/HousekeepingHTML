@@ -22,7 +22,10 @@
                    :startLocation="startLat"
                    :endLocation="startLng"
                    style="margin-top: 20px"></MyMap>
-
+            <div class="task-horizontal-align"  @click="dumpToChatRoom">
+              <img src="../../../assets/chat.png" class="task-margin-right">
+              <h3>connect with employer</h3>
+            </div>
           </div>
           <div v-if="active === 2">
             骑手正在赶往商家，准备取货。

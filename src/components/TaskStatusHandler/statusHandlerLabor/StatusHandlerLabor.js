@@ -45,6 +45,12 @@ export default {
         };
     },
     methods: {
+        dumpToChatRoom(){
+            this.$router.push({
+                path: '/chatRoom',
+                query: { role: "labor" }
+            });
+        },
         getCurrentTaskPhase(){
             const token = store.getters.getToken;
             this.$axios.get(this.$httpurl + '/member/employer/getCurrentTaskPhase', {

@@ -25,9 +25,18 @@ export default {
             userId:null,
             isConfirmed: false,
             active: 0,  // 当前的状态
+
+            dialogVisible: false,
+            tasker: {}
         };
     },
     methods: {
+        dumpToChatRoom(){
+            this.$router.push({
+                path: '/chatRoom',
+                query: { role: "employer" }
+            });
+        },
         getCurrentTaskPhase(){
             const token = store.getters.getToken;
             this.$axios.get(this.$httpurl + '/member/employer/getCurrentTaskPhase', {
@@ -43,12 +52,40 @@ export default {
                     if (res.code === 200) {
                         console.log(res)
                         this.active = res.data -2;
+                        // 检查到状态为未确定订单  任务状态为2
+                        if (this.active === 0) {
+                            this.dialogVisible = true;
+                            // 发送请求获取tasker信息
+                            this.getTaskerInfo()
+
+                        }
+                    } else {
+                        alert("failed to get the data");
+                    }
+                });
+        },
+        getTaskerInfo(){
+            const token = store.getters.getToken;
+            this.$axios.get(this.$httpurl + '/public/tasks/getTaskerInfo', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                params: {
+                    taskId: this.taskId,
+                }
+            })
+                .then(res => res.data)
+                .then(res => {
+                    if (res.code === 200) {
+                        this.tasker = res.data;
+
                     } else {
                         alert("failed to get the data");
                     }
                 });
         },
         changeStatus(status) {
+            this.dialogVisible = false;  // Close the dialog
             this.isConfirmed = true;
             this.active = status;
 

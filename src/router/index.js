@@ -19,6 +19,7 @@ const router = new VueRouter({
     routes: [
         {
             path: '/',
+
             name: 'login',
             component: login
         },
@@ -109,6 +110,15 @@ router.beforeEach((to, from, next) => {
 
     const isLoggedIn = store.getters.isLoggedIn;
     const role = store.getters.getRole;
+    // 进入聊天页面的时候温柔刷新数据
+    chatRoom.mounted()
+        .then(() => {
+            next();
+        })
+        .catch(error => {
+            console.error("An error occurred:", error);
+            next(false); // 可以选择中断路由导航
+        });
 
     // 检查是否需要验证权限
     if (to.matched.some(record => record.meta.requiresAuth)) {
