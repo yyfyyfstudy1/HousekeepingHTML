@@ -1,28 +1,52 @@
 <template>
   <div style="display: flex; flex-direction: column; min-height: 100vh; background-color: #0D1E48;">
     <Header></Header>
-    <div style="width: 70%; margin: 40px auto 0;">
-      <el-steps :active="active" finish-status="success" class="custom-steps">
+    <div style="width: 70%; margin: 40px auto 0; margin-bottom: 30px" >
+      <el-steps :active="active" finish-status="success" class="custom-steps" style="margin-left: 100px">
         <el-step title="Employer is confirm"></el-step>
         <el-step title="Labor is arrived"></el-step>
         <el-step title="Task have finished"></el-step>
         <el-step title="Payment successful"></el-step>
       </el-steps>
-      <div>
-
-        <!--        <el-button @click="changeStatus(2)">2</el-button>-->
-        <!--        <el-button @click="changeStatus(3)">3</el-button>-->
-        <!--        <el-button @click="changeStatus(4)">4</el-button>-->
-      </div>
 
       <div :key="active">
-        <div v-if="active === 0">
-          <el-button v-if="!isConfirmed" @click="changeStatus(1)">Waiting for you to confirm the order</el-button>
-        </div>
-        <transition name="fade" mode="out-in">
-          <div v-if="active === 1">
-            Labor is on the way
+
+        <el-dialog :visible.sync="dialogVisible"
+                   title="Your task has been take !"
+                   :close-on-click-modal="false"
+                   :show-close="false"
+                   :close-on-press-escape="false">
+
+          <div class="center-and-bold">
+            <img :src="tasker.avatarUrl" alt="Tasker Avatar" width="100"/>
+            <p>Name: {{ tasker.name }}</p>
+            <p>Age: {{ tasker.age }}</p>
+            <p>Phone: {{ tasker.phone }}</p>
+            <p>About: {{ tasker.introduction }}</p>
+            <div v-if="active === 0">
+              <el-button v-if="!isConfirmed" @click="changeStatus(1)" class="statusConfirmBtn">Waiting for you to
+                confirm the order
+              </el-button>
+            </div>
           </div>
+
+
+        </el-dialog>
+
+        <transition name="fade" mode="out-in">
+
+          <div v-if="active === 1">
+            <div class="task-center">
+              <img src="../../../assets/woman-6318447_1280.jpg" width="60%">
+              <h2>Your task will begin, The tasker is going to your place !</h2>
+              <div class="task-horizontal-align"  @click="dumpToChatRoom">
+                <img src="../../../assets/chat.png" class="task-margin-right">
+                <h3>connect with tasker</h3>
+              </div>
+            </div>
+          </div>
+
+
           <div v-if="active === 2">
             Labor is working....
           </div>
@@ -59,5 +83,42 @@
 .status-text {
   color: #FFF;
 }
+
+.center-and-bold {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* 如果你也想美化按钮，可以添加以下样式 */
+.statusConfirmBtn {
+  margin-top: 10px;
+  background-color: #007bff;
+  color: white;
+}
+
+
+.task-center {
+  color: #eeeeee;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.task-horizontal-align {
+  display: flex;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.task-margin-right {
+
+  width: 40px;
+  margin-right: 10px;
+}
+
 
 </style>

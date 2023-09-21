@@ -1,22 +1,38 @@
 import store from '../../store'; // 导入Vuex store
+import Header from "../Header.vue"
 let socket;
 export default {
     name: "ChatRoom",
+    components: {
+        Header,
+    },
     data() {
         return {
             circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+            role:"",
             user: {},
             isCollapse: false,
             users: [],
+            onlineUsers: [], // 在线的用户列表
             chatUser: '',
             text: "",
             messages: [],
             content: '',
-            historyMessage:{}
+            historyMessage:{},
+
+            thisUserInfo:{},
+            remoteUserInfo: {}
         }
     },
-    created() {
+    async mounted() {
+
+        const role = this.$route.query.role;
+        this.role = role;
+        this.getMatchUser()
         this.init()
+
+        const userEmail = store.getters.getUserInfo.email;
+        this.thisUserInfo = await this.getThisUserInfoByEmail(userEmail)
     },
     watch: {
         content() {
@@ -26,15 +42,70 @@ export default {
         }
     },
     methods: {
+        async getThisUserInfoByEmail(userEmail) {
+            const token = store.getters.getToken;
+            let userInfoUse = "";
+
+            try {
+                const response = await this.$axios.get(this.$httpurl + '/user/userInfo', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    params: {
+                        email: userEmail,
+                    }
+                });
+
+                if (response.data.code === 200) {
+                    console.log(response.data);
+                    userInfoUse = response.data.data;
+                } else {
+                    alert("failed to get the data");
+                }
+            } catch (error) {
+                console.error("An error occurred:", error);
+            }
+
+            return userInfoUse;
+        },
+
+        getMatchUser(){
+            const requestBody ={
+                role: this.role,
+                userId: store.getters.getUserInfo.id
+            }
+
+            const token = store.getters.getToken;
+            this.$axios.post(this.$httpurl + '/member/chatRoom/getMatchUserInfo', requestBody, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then(res => res.data)
+                .then(res => {
+                    if (res.code === 200) {
+                        this.$message.success("Get info successful")
+                        this.users = res.data
+                    } else {
+                        alert("failed to get the data");
+                    }
+                });
+
+        },
         scrollToBottom() {
             const scrollDiv = this.$refs.scrollDiv;
             scrollDiv.scrollTop = scrollDiv.scrollHeight;
         },
-        switchAccount(userEmail){
+        async  switchAccount(userEmail){
             this.chatUser =userEmail;
             // clear the chat content
             this.content = '';
 
+            // get remote user information
+            this.remoteUserInfo = await this.getThisUserInfoByEmail(userEmail);
+
+            console.log(this.thisUserInfo)
+            console.log(this.remoteUserInfo)
             // get the history of chat
             const requestForm = {
                 "email1": this.user.email,
@@ -107,7 +178,7 @@ export default {
                     "  </div>\n" +
                     "  <div class=\"el-col el-col-2\">\n" +
                     "  <span class=\"el-avatar el-avatar--circle\" style=\"height: 40px; width: 40px; line-height: 40px;\">\n" +
-                    "    <img src=\"https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png\" style=\"object-fit: cover;\">\n" +
+                    "    <img src=\"" + this.thisUserInfo.avatarUrl + "\" style=\"object-fit: cover;\">" +
                     "  </span>\n" +
                     "  </div>\n" +
                     "</div>";
@@ -115,7 +186,7 @@ export default {
                 html = "<div class=\"el-row\" style=\"padding: 5px 0\">\n" +
                     "  <div class=\"el-col el-col-2\" style=\"text-align: right\">\n" +
                     "  <span class=\"el-avatar el-avatar--circle\" style=\"height: 40px; width: 40px; line-height: 40px;\">\n" +
-                    "    <img src=\"https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png\" style=\"object-fit: cover;\">\n" +
+                    "    <img src=\"" + this.remoteUserInfo.avatarUrl + "\" style=\"object-fit: cover;\">" +
                     "  </span>\n" +
                     "  </div>\n" +
                     "  <div class=\"el-col el-col-22\" style=\"text-align: left; padding-left: 10px\">\n" +
@@ -140,7 +211,7 @@ export default {
                 }
                 // 开启一个websocket服务
                 socket = new WebSocket(socketUrl);
-                //打开事件
+                // 打开事件
                 socket.onopen = function () {
                     console.log("websocket已打开");
                 };
@@ -148,8 +219,14 @@ export default {
                 socket.onmessage = function (msg) {
                     console.log("收到数据====" + msg.data)
                     let data = JSON.parse(msg.data)  // 对收到的json数据进行解析， 类似这样的： {"users": [{"userEmail": "zhang"},{ "userEmail": "admin"}]}
-                    if (data.users) {  // 获取在线人员信息
-                        _this.users = data.users.filter(user => user.userEmail !== userEmail)  // 获取当前连接的所有用户信息，并且排除自身，自己不会出现在自己的聊天列表里
+                    if (data.users && Array.isArray(data.users)) {  // 获取在线人员信息
+                        const onlineEmails = data.users.map(onlineUser => onlineUser.userEmail);
+
+                        _this.users = _this.users.map(user => ({
+                            ...user,
+                            isOnline: onlineEmails.includes(user.email)
+                        }));
+
                     } else {
                         // 如果服务器端发送过来的json数据 不包含 users 这个key，那么发送过来的就是聊天文本json数据
                         //  // {"from": "zhang", "text": "hello"}
