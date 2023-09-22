@@ -4,15 +4,15 @@
     <div style="width: 70%; margin: 40px auto 0;">
       <el-steps :active="active" finish-status="success" class="custom-steps centered-steps">
         <el-step title="Employer is confirm"></el-step>
-        <el-step title="Labor is arrived"></el-step>
+        <el-step title="Tasker is arrived"></el-step>
         <el-step title="Task have finished"></el-step>
         <el-step title="Payment successful"></el-step>
       </el-steps>
       <div>
       </div>
       <transition name="fade" mode="out-in">
-        <div :key="active" style="margin-top: 30px">
-          <div v-if="active === 1">
+        <div :key="active" style="margin-top: 30px; margin-bottom: 40px">
+          <div v-if="active === 1" >
             <h2 style="color: #cccccc; width: 80%; text-align: center;  margin-left: 60px;">
               Employer has confirm the order, Please bring the necessary tools and go to
               <span class="highlight">{{taskDetail.taskLocation}}</span> at local time :
@@ -22,22 +22,67 @@
                    :startLocation="startLat"
                    :endLocation="startLng"
                    style="margin-top: 20px"></MyMap>
-            <div class="task-horizontal-align"  @click="dumpToChatRoom">
-              <img src="../../../assets/chat.png" class="task-margin-right">
-              <h3>connect with employer</h3>
-            </div>
+
+            <el-button @click="confirmArrived(2)" size="big" type="success" style="margin-top: 20px; color: #5b5b5b; font-weight: bold; margin-left:40%">
+              I have arrived
+
+            </el-button>
           </div>
           <div v-if="active === 2">
-            骑手正在赶往商家，准备取货。
+            <div class="task-center">
+              <h2>The timer has started, please start the task immediately</h2>
+              <span style="font-size: 60px; margin-top: 20px; color: #e3ea00">{{ formattedTime }}</span>
+              <!-- 第一个按钮 -->
+              <el-button @click="showConfirmDialog(1)" style="width: 250px; margin-top: 30px" type="success">
+                Task is completed
+              </el-button>
+
+              <!-- 第二个按钮 -->
+              <el-button @click="showConfirmDialog(2)" type="danger" style="margin-top: 20px; width: 250px">
+                Meet issue, stop timer
+              </el-button>
+
+            </div>
+
+            <!-- 确认框 -->
+            <el-dialog
+                :visible="confirmDialogVisible"
+                title="Confirmation"
+                @confirm="handleConfirm"
+                @cancel="handleCancel"
+            >
+              <span v-if="currentAction === 1">Continue with task completion?</span>
+              <span v-else>Continue with stopping the timer?</span>
+              <!-- 添加确认按钮和取消按钮 -->
+              <span slot="footer" class="dialog-footer">
+                <el-button @click="handleCancel">Cancel</el-button>
+                <el-button type="primary" @click="handleConfirm">Confirm</el-button>
+              </span>
+            </el-dialog>
+
+
           </div>
           <div v-if="active === 3">
-            骑手已经取到货，正在为你送货。
+            <div class="task-center">
+              骑手正在赶往商家，准备取货。
+            </div>
+
           </div>
           <div v-if="active === 4">
-            骑手已经送达，感谢你的使用！
+            <div class="task-center">
+              骑手正在赶往商家，准备取货。
+            </div>
+
           </div>
         </div>
       </transition>
+
+      <div class="task-center-labor">
+        <div class="task-horizontal-align-labor" @click="dumpToChatRoom">
+          <img src="../../../assets/chat.png" class="task-margin-right">
+          <h3 style="color: black">connect with employer</h3>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -74,5 +119,26 @@
 .highlight {
   color: #fcf236; /* 你希望使用的显眼的颜色 */
 }
+.task-center-labor {
+  position: fixed;
+  right: 40px;
+  bottom: 40px;
+  z-index: 1000;
+  background-color: #FFFFFF; /* 白色背景 */
+  border-radius: 10px;       /* 边框圆角 */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);  /* 阴影效果 */
+  padding: 20px;            /* 内部填充，使内容不会贴在卡片的边缘 */
+}
+
+.task-horizontal-align-labor {
+  display: flex;
+  padding: 5px;
+  align-items: center;   /* 垂直居中对齐项目 */
+}
+
+.task-margin-right {
+  margin-right: 10px;   /* 右边距为10px */
+}
+
 
 </style>

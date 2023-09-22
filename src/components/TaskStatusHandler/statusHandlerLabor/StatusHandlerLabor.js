@@ -32,6 +32,30 @@ export default {
         document.head.appendChild(script);
 
     },
+    watch: {
+        active(newVal) {
+            if (newVal === 2) {
+                this.startTimer();
+            } else {
+                this.stopTimer();
+            }
+        }
+    },
+    computed: {
+        formattedTime() {
+            let seconds = this.time;
+            const hours = Math.floor(seconds / 3600);
+            seconds %= 3600;
+            const minutes = Math.floor(seconds / 60);
+            seconds %= 60;
+
+            return [
+                hours.toString().padStart(2, '0'),
+                minutes.toString().padStart(2, '0'),
+                seconds.toString().padStart(2, '0')
+            ].join(':');
+        }
+    },
     data() {
         return {
             taskId:null,
@@ -40,11 +64,98 @@ export default {
             mapsApiLoaded: false,
             startLat: "3301 Botany Rd, Zetland NSW 2017",
             startLng: "102 Regent St, Redfern NSW 2016",
+
+            time: 0,
+            timer: null,
+
+            confirmDialogVisible: false,
+            currentAction: 0, // 1 for task completion, 2 for stopping timer
             // endLat: -35.397,
             // endLng: 151.644
         };
     },
     methods: {
+
+        stopTiming(){
+            if (this.timer) {
+                clearInterval(this.timer);
+                this.timer = null;
+            }
+        },
+
+        showConfirmDialog(action) {
+            this.currentAction = action;
+            this.confirmDialogVisible = true;
+        },
+        handleConfirm() {
+            // 用户点击确认按钮后的处理逻辑
+            if (this.currentAction === 1) {
+                // 处理任务完成操作
+                // 执行 this.changeStatus(1) 或其他逻辑
+
+            } else if (this.currentAction === 2) {
+                // 处理停止计时器操作
+                this.stopTiming();
+
+                // 发送请求后端更新任务phase到14
+                const requestBody = {
+                    userRole: "labor",
+                    userId: this.userId,
+                    taskId: this.taskId
+                }
+                const token = store.getters.getToken;
+                this.$axios.post(this.$httpurl + '/public/tasks/laborStopTask', requestBody, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                    .then(res => res.data)
+                    .then(res => {
+                        if (res.code === 200) {
+                            this.$message.success("you have confirm stop task")
+                        } else {
+                            alert("failed to get the data");
+                        }
+                    });
+
+            }
+            this.confirmDialogVisible = false;
+        },
+        handleCancel() {
+            // 用户点击取消按钮后的处理逻辑
+            this.confirmDialogVisible = false;
+        },
+
+        getOldTime(){
+            const token = store.getters.getToken;
+            this.$axios.get(this.$httpurl + '/member/employer/getTaskPhaseFourBeginTime', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                params: {
+                    taskId: this.taskId,
+                }
+            })
+                .then(res => res.data)
+                .then(res => {
+                    if (res.code === 200) {
+
+                        const taskPhaseUpdateTime = res.data.taskPhaseUpdateTime;
+                        const currentTime = Date.now();
+                        this.time = Math.floor((currentTime - taskPhaseUpdateTime) / 1000);  // 将毫秒转换为秒，然后计算差值
+                    } else {
+                        alert("failed to get the data");
+                    }
+                });
+        },
+        startTimer() {
+            if (this.timer) {
+                clearInterval(this.timer);
+            }
+            this.timer = setInterval(() => {
+                this.time++;
+            }, 1000);
+        },
         dumpToChatRoom(){
             this.$router.push({
                 path: '/chatRoom',
@@ -65,14 +176,45 @@ export default {
                 .then(res => {
                     if (res.code === 200) {
                         console.log(res)
-                        this.active = res.data -2;
+                        if (res.data == 14){
+                            this.active = 2
+                        }else {
+                            this.active = res.data -2;
+                        }
+
+                        // 如果任务在第四阶段，active为2的时候查询任务进入第四阶段的时间
+                        if (this.active === 2){
+                            this.getOldTime();
+                        }
+
                     } else {
                         alert("failed to get the data");
                     }
                 });
         },
-        changeStatus(status) {
+        confirmArrived(status) {
             this.active = status;
+            // send request to notification employer change status
+            const requestBody = {
+                userRole: "labor",
+                userId: this.userId,
+                taskId: this.taskId
+            }
+            const token = store.getters.getToken;
+            this.$axios.post(this.$httpurl + '/public/tasks/laborConfirmArrived', requestBody, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then(res => res.data)
+                .then(res => {
+                    if (res.code === 200) {
+                        this.$message.success("you have confirm arrived task place")
+                    } else {
+                        alert("failed to get the data");
+                    }
+                });
+
         },
         initWebsocket(){
             this.user = store.getters.getUserInfo;
@@ -144,6 +286,11 @@ export default {
                         this.$message.error(res.data)
                     }
                 });
+        },
+        beforeDestroy() {
+            if (this.timer) {
+                clearInterval(this.timer);
+            }
         }
     },
 };
