@@ -37,9 +37,13 @@
                 Task is completed
               </el-button>
 
+
               <!-- 第二个按钮 -->
-              <el-button @click="showConfirmDialog(2)" type="danger" style="margin-top: 20px; width: 250px">
+              <el-button v-if="timer != null"  @click="showConfirmDialog(2)" type="danger" style="margin-top: 20px; width: 250px">
                 Meet issue, stop timer
+              </el-button>
+              <el-button v-else  @click="showConfirmDialog(3)" type="warning" style="margin-top: 20px; width: 250px">
+                start with timer
               </el-button>
 
             </div>
@@ -52,7 +56,8 @@
                 @cancel="handleCancel"
             >
               <span v-if="currentAction === 1">Continue with task completion?</span>
-              <span v-else>Continue with stopping the timer?</span>
+              <span v-else-if="currentAction === 2">Continue with stopping the timer?</span>
+              <span v-else>Continue with start the timer?</span>
               <!-- 添加确认按钮和取消按钮 -->
               <span slot="footer" class="dialog-footer">
                 <el-button @click="handleCancel">Cancel</el-button>

@@ -32,7 +32,9 @@ export default {
             tasker: {},
 
             time: 0,
-            timer: null
+            timer: null,
+
+            taskPhase: 0,
         };
     },
     watch: {
@@ -83,20 +85,33 @@ export default {
                     if (res.code === 200) {
 
                         const taskPhaseUpdateTime = res.data.taskPhaseUpdateTime;
+                        const taskAlreadyWorkTime =res.data.laborWorkTime;
                         const currentTime = Date.now();
-                        this.time = Math.floor((currentTime - taskPhaseUpdateTime) / 1000);  // 将毫秒转换为秒，然后计算差值
+
+                        if (this.taskPhase == 14){
+                            // 如果当前处于任务暂停状态
+                            this.time = Math.floor(taskAlreadyWorkTime / 1000);  // 将毫秒转换为秒，然后计算差值
+                        }else {
+                            // 如果任务不在暂停暂停
+                            // 当前时间 - 更新时间 + 已经工作的时间
+                            // taskPhaseUpdateTime是重启任务的时间
+                            this.time = Math.floor((currentTime - taskPhaseUpdateTime + taskAlreadyWorkTime) / 1000);  // 将毫秒转换为秒，然后计算差值
+                        }
+
                     } else {
                         alert("failed to get the data");
                     }
                 });
         },
         startTimer() {
-            if (this.timer) {
-                clearInterval(this.timer);
+            if (this.taskPhase !== 14){
+                if (this.timer) {
+                    clearInterval(this.timer);
+                }
+                this.timer = setInterval(() => {
+                    this.time++;
+                }, 1000);
             }
-            this.timer = setInterval(() => {
-                this.time++;
-            }, 1000);
         },
         dumpToChatRoom(){
             this.$router.push({
@@ -117,6 +132,7 @@ export default {
                 .then(res => res.data)
                 .then(res => {
                     if (res.code === 200) {
+                        this.taskPhase = res.data;
                         console.log(res)
                         if (res.data == 14){
                             this.active = 2
@@ -230,6 +246,13 @@ export default {
                         if (JsonMessage.phase == 14){
                             // error且 阶段等于14， 停止timer
                             this.stopTiming();
+                            this.taskPhase = 14;
+                        }
+
+                        if (JsonMessage.phase == 4){
+                            // error且 阶段等于4， 重启timer
+                            this.taskPhase = 4;
+                            this.startTimer();
                         }
                     }
 

@@ -49,9 +49,10 @@
                 <span class="part2"> and the task </span>
                 <span class="part3">starts timing</span>
               </h1>
-              <span style="font-size: 60px; margin-top: 20px;  color: #e3ea00">{{ formattedTime }}</span>
+              <span v-if="taskPhase !== 14" style="font-size: 60px; margin-top: 20px;  color: #e3ea00">{{ formattedTime }}</span>
+              <span v-else style="font-size: 60px; margin-top: 20px;  color: #8d8d8d">{{ formattedTime }}</span>
               <h3 style="margin-top: 20px"><u>Have questions about timing?</u></h3>
-
+              <h2 v-if="taskPhase === 14" style="margin-top: 40px; color: red">Tasker has paused the task</h2>
             </div>
           </div>
           <div v-if="active === 3">
