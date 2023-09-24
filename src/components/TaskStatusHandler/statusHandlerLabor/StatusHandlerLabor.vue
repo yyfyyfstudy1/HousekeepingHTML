@@ -68,8 +68,10 @@
 
           </div>
           <div v-if="active === 3">
-            <div class="task-center">
-              骑手正在赶往商家，准备取货。
+            <div class="labor-phase-3">
+              <h1 style="color: #fcf236">Congratulate, you have finished your task !!!</h1>
+              <h2 style="margin-top: 20px">Waiting for employer payment .....</h2>
+              <FireworksEffect/>
             </div>
 
           </div>
@@ -145,5 +147,13 @@
   margin-right: 10px;   /* 右边距为10px */
 }
 
+.labor-phase-3{
+  color: #eeeeee;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+}
 
 </style>

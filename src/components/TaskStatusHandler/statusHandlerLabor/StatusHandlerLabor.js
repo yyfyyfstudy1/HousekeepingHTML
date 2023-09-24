@@ -1,11 +1,14 @@
 import Header from "../../Header.vue"
 import store from '../../../store';
 import MyMap from '../../GoogleMap/MyMap.vue'
+import FireworksEffect from '../FireworksEffect.vue';
+
 let socket;
 export default {
     components: {
         Header,
-        MyMap
+        MyMap,
+        FireworksEffect
     },
 
     mounted() {
@@ -92,7 +95,30 @@ export default {
             // 用户点击确认按钮后的处理逻辑
             if (this.currentAction === 1) {
                 // 处理任务完成操作
-                // 执行 this.changeStatus(1) 或其他逻辑
+                // labor confirm task finished
+                this.active = 3;
+
+                const requestBody = {
+                    userRole: "labor",
+                    userId: this.userId,
+                    taskId: this.taskId
+                }
+                const token = store.getters.getToken;
+                this.$axios.post(this.$httpurl + '/public/tasks/laborFinishedTask', requestBody, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                    .then(res => res.data)
+                    .then(res => {
+                        if (res.code === 200) {
+                            this.$message.success("you have confirm finished task")
+                            this.taskPhase = 5;
+                        } else {
+                            alert("failed to get the data");
+                        }
+                    });
+
 
             } else if (this.currentAction === 2) {
                 // 处理停止计时器操作

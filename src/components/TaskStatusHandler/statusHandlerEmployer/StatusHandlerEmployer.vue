@@ -114,7 +114,7 @@
 
 .task-center {
   color: #eeeeee;
-  margin-top: 20px;
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
