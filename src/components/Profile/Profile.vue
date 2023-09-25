@@ -1,40 +1,58 @@
 <template>
   <div style="height: 100vh">
     <Header></Header>
-    <div class="profile-page" style="background-color: #0D1E48;">
+    <div class="profile-page">
+
       <el-form class="profile-content">
+        <!-- 容器，用于包含图片选择按钮和预览 -->
+        <div class="image-container">
+          <!-- 预览图片 -->
+          <el-form-item prop="preview" v-if="imageUrl">
+            <el-image
+                :src="imageUrl"
+                fit="contain"
+                style="max-width: 100px; max-height: 100px; cursor: pointer;"
+            ></el-image>
+          </el-form-item>
+          <!-- 添加图片选择按钮 -->
+          <el-form-item class="file-container">
+            <input
+                ref="fileInput"
+                type="file"
+                accept="image/*"
+                style="display: none;"
+                @change="handleFileChange"
+            />
+            <!-- 使用 custom-button 类设置通用样式 -->
+            <el-button size="small" type="danger" class="custom-button select-file-button" @click="chooseFile">Update Image</el-button>
+          </el-form-item>
+        </div>
 
         <!-- Name Field -->
         <el-form-item class="input-container">
           <img slot="label" src="../../assets/name.png" alt="Name Icon" class="profile-icon"/>
           <el-input v-model="name" placeholder="Enter name"></el-input>
-
         </el-form-item>
-
         <!-- Address Field -->
         <el-form-item class="input-container">
           <img slot="label" src="../../assets/address.png" alt="Address Icon" class="profile-icon"/>
           <el-input v-model="address" placeholder="Enter address"></el-input>
         </el-form-item>
-
         <!-- Phone Field -->
         <el-form-item class="input-container">
           <img slot="label" src="../../assets/phone.png" alt="Phone Icon" class="profile-icon"/>
           <el-input v-model="phone" placeholder="Enter phone"></el-input>
         </el-form-item>
-
         <!-- Email Field -->
         <el-form-item class="input-container">
           <img slot="label" src="../../assets/email.png" alt="Email Icon" class="profile-icon"/>
           <el-input v-model="email" placeholder="Enter email"></el-input>
         </el-form-item>
 
-        <!-- 保存按钮 -->
-        <el-form-item class="input-container">
-          <div style="flex: 1;"></div> <!-- 用于将按钮推到右侧 -->
-          <el-button class="save-button" @click="updateProfile" type="primary">Save</el-button>
-        </el-form-item>
-
+        <div class="buttons-container">
+          <el-button class="custom-button logout-button" @click="logOut" type="danger">Log Out</el-button>
+          <el-button class="custom-button save-button" @click="updateProfile" type="primary">Save</el-button>
+        </div>
       </el-form>
     </div>
   </div>
@@ -44,58 +62,89 @@
 </script>
 
 <style>
+body, html {
+  height: 100%;
+  margin: 0;
+}
+body {
+  background-color: #0D1E48;
+}
 .profile-page {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 100%;
   padding: 5px;
 }
-
 .profile-content {
-  width: 100%;
-  max-width: 500px; /* 可以调整最大宽度 */
+  width: 90%;
+  max-width: 500px;
+  margin: 0 auto;
 }
-
-.input-container {
+.image-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 15px; /* 输入框间距 */
-  margin-left: 40%; /* 输入框间距 */
+  margin: 20px 0;
 }
-
+.file-container {
+  margin-top: 10px;
+}
+.input-container {
+  margin-left: 20%;
+  display: flex;
+  align-items: stretch;
+  margin-bottom: 15px;
+  padding-left: 5%;
+}
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+/* 使用相同的宽度设置 */
+.input-container, .buttons-container {
+  width: 60%;
+  max-width: 500px;
+  margin: 0 auto;
+}
 .profile-icon {
   width: 50px;
   height: 50px;
-  margin-right: 15px; /* 图标与输入框间距 */
-  margin-top: 15px;
+  margin-right: 15px;
 }
 
-.save-button {
-  border: 2px solid #ffda00 !important;  /* 改变边框颜色 */
-  color: #ffda00 !important; /* 改变文字颜色 */
-  background-color: transparent !important;  /* 透明背景 */
+/* 通用按钮样式 */
+.custom-button {
+  border: 2px solid #ffda00 !important;
+  color: #ffda00 !important;
+  background-color: transparent !important;
   padding: 10px 15px;
   border-radius: 15px;
-  box-shadow: none !important;  /* 移除 Element UI 的默认阴影效果 */
+  box-shadow: none !important;
 }
 
-.input-container:last-child {
-  justify-content: flex-end;  /* 将保存按钮推到最右侧 */
+/* Log Out 按钮特定样式 */
+.logout-button {
+  margin-left: 10px;
+  color: #ff4444 !important;
+  border-color: #ff4444 !important;
+  align-self: flex-start;
+}
+
+/* Save 按钮特定样式 */
+.save-button {
+  align-self: flex-end;
 }
 
 .el-input {
   width: 100%;
 }
-
 .el-input__inner {
   padding: 10px 15px;
   border-radius: 15px;
-  //border: 2px solid #0D1E48;
   border: 2px solid white;
   background-color: transparent;
-  color: white; /* 根据背景色调整文字颜色 */
+  color: white;
 }
-
 </style>
