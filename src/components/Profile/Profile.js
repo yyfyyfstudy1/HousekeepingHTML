@@ -1,6 +1,6 @@
 import Header from "../Header.vue";
 import store from "@/store";
-
+ 
 export default {
     components: {Header},
     data() {
