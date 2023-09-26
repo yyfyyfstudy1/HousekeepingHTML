@@ -1,15 +1,15 @@
 <template>
   <div style="height: 100vh">
-    <Header></Header>
+    <Header ref="headerComponent"></Header>
     <div class="profile-page">
 
       <el-form class="profile-content">
         <!-- 容器，用于包含图片选择按钮和预览 -->
         <div class="image-container">
           <!-- 预览图片 -->
-          <el-form-item prop="preview" v-if="imageUrl">
+          <el-form-item prop="preview" v-if="avatarUrl">
             <el-image
-                :src="imageUrl"
+                :src="avatarUrl"
                 fit="contain"
                 style="max-width: 100px; max-height: 100px; cursor: pointer;"
             ></el-image>

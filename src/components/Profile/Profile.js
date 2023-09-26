@@ -9,7 +9,8 @@ export default {
             address: '',
             phone: '',
             email: '',
-            imageUrl: require('@/assets/img_2.png')
+            avatarUrl: ''
+            // imageUrl: require('@/assets/img_2.png')
         };
     },
     computed: {
@@ -52,7 +53,7 @@ export default {
                 .then(res => {
                     if (res.code === 200) {
                         console.log("reset imageUrl");
-                        this.imageUrl = res.data;
+                        this.avatarUrl = res.data;
                     } else {
                         alert("上传失败");
                     }
@@ -69,6 +70,7 @@ export default {
                         this.address = userData.address;
                         this.phone = userData.phone;
                         this.email = userData.email;
+                        this.avatarUrl = userData.avatarUrl;
                     } else {
                         console.error("Error fetching profile:", response.data.msg);
                     }
@@ -83,7 +85,8 @@ export default {
                 id: this.id,
                 name: this.name,
                 phone: this.phone,
-                address: this.address
+                address: this.address,
+                avatarUrl: this.avatarUrl
                 // 移除了 email 和 address 字段，因为后端不需要这些字段
             })
                 .then(res => res.data)
@@ -92,6 +95,7 @@ export default {
                     if (data.code === 200 && data.data.code === 200) {
                         alert("Profile updated successfully!");
                         this.fetchUserProfile();  // 重新获取最新的用户信息
+                        this.$refs.headerComponent.fetchUserProfile(); // 获取Header组件的用户信息
                     } else {
                         alert("Failed to update the profile");
                     }
