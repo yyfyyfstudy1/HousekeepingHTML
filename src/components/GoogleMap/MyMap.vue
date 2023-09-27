@@ -55,7 +55,7 @@ export default {
       }, (response, status) => {
         if (status === 'OK') {
           this.directionsRenderer.setDirections(response);
-          // 你可以从这里获取终点的经纬度，然后绘制标记
+          // 从这里获取终点的经纬度，然后绘制标记
           const endPoint = response.routes[0].legs[0].end_location;
           this.drawEndMarker(endPoint.lat(), endPoint.lng());
         } else if (status === 'ZERO_RESULTS') {

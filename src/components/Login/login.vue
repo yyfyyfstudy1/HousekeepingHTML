@@ -1,5 +1,24 @@
 <template>
   <div class="login-page">
+    <vue-particles
+        class="particles"
+        color="#dedede"
+        :particleOpacity="0.3"
+        :particlesNumber="80"
+        shapeType="circle"
+        :particleSize="4"
+        linesColor="#dedede"
+        :linesWidth="1"
+        :lineLinked="true"
+        :lineOpacity="1"
+        :linesDistance="150"
+        :moveSpeed="3"
+        :hoverEffect="true"
+        hoverMode="grab"
+        :clickEffect="true"
+        clickMode="push"
+    >
+    </vue-particles>
     <img src="@/assets/logo.png" alt="Logo" class="logo">
     <el-form class="login-form" ref="loginForm" :model="loginForm" label-width="80px">
       <el-form-item label="Email">
@@ -20,8 +39,16 @@
 </script>
 
 <style scoped>
+.particles {
+  position: fixed; /* Fixed position */
+  top: 0;
+  left: 0;
+  width: 100vw; /* Viewport width */
+  height: 100vh; /* Viewport height */
+  z-index: -1; /* Place it behind other content */
+}
 .login-page {
-  background-color: #ffffff;
+  background-color: transparent;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -37,8 +64,8 @@
 
 .login-form {
   width: 300px;
-  background-color: rgb(0, 0, 0);
-  padding: 20px;
+  background-color: #0D1E48;
+  padding: 40px;
   border-radius: 5px;
 }
 </style>
