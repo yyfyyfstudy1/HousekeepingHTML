@@ -64,7 +64,7 @@ export default {
         fetchUserTask(){
             this.user = store.getters.getUserInfo;
             let userId = this.user.id;
-            this.$axios.get(this.$httpurl + '/user/myTokenTask', {
+            this.$axios.get(this.$httpurl + '/user/myTakenTask', {
                 params: { userId: userId }  // 根据需要动态传入用户ID
             })
                 .then(response => {
