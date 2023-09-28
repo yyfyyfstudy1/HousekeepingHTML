@@ -27,8 +27,7 @@
               prop="taskTitle"
               label="title"
               sortable
-              width="250"
-              column-key="date">
+              width="250">
           </el-table-column>
           <el-table-column
               prop="taskSalary"
@@ -46,8 +45,8 @@
               width="250">
           </el-table-column>
           <el-table-column
-              prop="taskEstimatedDuration"
-              label="estimated time"
+              prop="name"
+              label="labor name"
               sortable
               width="250">
           </el-table-column>
@@ -66,12 +65,12 @@
                          { text: 'employer confirm', value: 'employer confirm' }, { text: 'labor is arrived', value: 'labor is arrived' },
                          { text: 'labor is finished work', value: 'labor is finished work' }, { text: 'employer confirm finished', value: 'employer confirm finished' }]"
               :filter-method="statusFilterHandler">
-              <template slot-scope="scope">
-                <el-tag
-                    :type="getStatusTagType(scope.row.taskPhaseDescribe)"
-                    disable-transitions
-                >{{ scope.row.taskPhaseDescribe }}</el-tag>
-              </template>
+            <template slot-scope="scope">
+              <el-tag
+                  :type="getStatusTagType(scope.row.taskPhaseDescribe)"
+                  disable-transitions
+              >{{ scope.row.taskPhaseDescribe }}</el-tag>
+            </template>
           </el-table-column>
         </el-table>
       </div>
@@ -79,7 +78,7 @@
   </div>
 </template>
 
-<script src="./MyTask.js">
+<script src="../MyTask/MyTokenTask.js">
 </script>
 
 <style scoped>
