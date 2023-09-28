@@ -13,6 +13,7 @@ import TaskStatusHandlerEmployer from "../components/TaskStatusHandler/statusHan
 import TaskStatusHandlerLabor from "../components/TaskStatusHandler/statusHandlerLabor/StatusHandlerLabor.vue";
 import store from '../store'; // 导入Vuex store
 import myTask from "../components/MyTask/MyTask.vue";
+import myTokenTask from "../components/MyTask/MyTokenTask.vue";
 
 const router = new VueRouter({
     mode: 'history',    // Routing mode, this mode will not display the pound sign # in the address
@@ -99,6 +100,12 @@ const router = new VueRouter({
             path: '/myTask',
             name: 'MyTask',
             component: myTask,
+            meta: { requiresAuth: true, allowedRoles: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN'] }
+        },
+        {
+            path: '/myTokenTask',
+            name: 'myTokenTask',
+            component: myTokenTask,
             meta: { requiresAuth: true, allowedRoles: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN'] }
         },
     ]

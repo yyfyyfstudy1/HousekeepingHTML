@@ -29,7 +29,7 @@ export default {
         formatter(row) {
             return row.taskLocation;
         },
-        salaryFilterHandler(value, row) {
+        salaryFilterHandler(value, row, column) {
             const salary = row.taskSalary;
             switch (value) {
                 case '0~100$':
@@ -64,7 +64,7 @@ export default {
         fetchUserTask(){
             this.user = store.getters.getUserInfo;
             let userId = this.user.id;
-            this.$axios.get(this.$httpurl + '/user/myTask', {
+            this.$axios.get(this.$httpurl + '/user/myTokenTask', {
                 params: { userId: userId }  // 根据需要动态传入用户ID
             })
                 .then(response => {
