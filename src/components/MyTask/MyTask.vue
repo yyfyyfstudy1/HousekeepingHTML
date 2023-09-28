@@ -7,7 +7,7 @@
         <el-menu style="height: 100%;"
                  router>
           <el-menu-item index="/myTask">My posted tasks</el-menu-item>
-          <el-menu-item index="/myTokenTask">My token tasks</el-menu-item>
+          <el-menu-item index="/myTakenTask">My taken tasks</el-menu-item>
         </el-menu>
       </el-aside>
       <div class="board">
@@ -27,8 +27,12 @@
               prop="taskTitle"
               label="title"
               sortable
-              width="250"
-              column-key="date">
+              width="250">
+              <template slot-scope="scope">
+                <router-link :to="{ name: 'TaskStatusHandlerEmployer', query: { id: scope.row.taskId } }">
+                  {{ scope.row.taskTitle }}
+                </router-link>
+              </template>
           </el-table-column>
           <el-table-column
               prop="taskSalary"
