@@ -20,37 +20,46 @@
     </div>
 
     <div class="card-container">
-      <el-card class="card" shadow="hover">
-        <div class="card__body">
-          <h3>Card Title</h3>
-          <p>Card description</p>
-        </div>
-      </el-card>
-      <el-card class="card" shadow="hover">
 
+      <el-card class="card" shadow="hover">
         <div class="card__body">
-          <h3>Card Title</h3>
-          <p>Card description</p>
+          <h3>{{ task1.title }}</h3>
+          <p><strong>Task category:</strong> {{ task1.category }}</p>
+          <p><strong>Content:</strong> {{ task1.content }}</p>
+          <p><strong>Duration:</strong> {{ task1.duration }}</p>
+          <p><strong>Salary:</strong> {{ task1.salary }}</p>
+          <el-button @click="handleButtonClick1" class="card-button">Go</el-button>
         </div>
       </el-card>
+
       <el-card class="card" shadow="hover">
         <div class="card__body">
           <h3>Card Title</h3>
           <p>Card description</p>
         </div>
       </el-card>
+
       <el-card class="card" shadow="hover">
         <div class="card__body">
           <h3>Card Title</h3>
           <p>Card description</p>
         </div>
       </el-card>
+
       <el-card class="card" shadow="hover">
         <div class="card__body">
           <h3>Card Title</h3>
           <p>Card description</p>
         </div>
       </el-card>
+
+      <el-card class="card" shadow="hover">
+        <div class="card__body">
+          <h3>Card Title</h3>
+          <p>Card description</p>
+        </div>
+      </el-card>
+
       <el-card class="card" shadow="hover">
         <div class="card__body">
           <h3>Card Title</h3>
@@ -59,7 +68,6 @@
       </el-card>
 
     </div>
-
   </div>
 </template>
 
@@ -81,7 +89,6 @@
   background-repeat: no-repeat;  /* 图片不会重复 */
   background-position: center;  /* 图片从中心开始 */
 }
-
 
 .content {
   background-color: rgba(255, 255, 255); /* 使用rgba()来设置半透明的白色背景 */
@@ -147,19 +154,37 @@
   padding: 50px;
 }
 
-
 .card {
   width: calc(33.33% - 10px);
-  height:200px;
+  height:300px;
 }
 
 .card__body {
   padding: 14px;
+  position: relative;
+}
+
+.card-button {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 1;
+}
+@media (max-width: 1000px) {
+  .card {
+    width: calc(50% - 10px);
+    height:350px;
+  }
 }
 /* 媒体查询：屏幕宽度小于等于600px时 */
 @media (max-width: 600px) {
   .floating-checkbox {
     width: 100%; /* 让 checkbox 在小屏幕上占满宽度 */
   }
+  .card {
+    width: calc(100% - 10px);
+    height:200px;
+  }
 }
+
 </style>

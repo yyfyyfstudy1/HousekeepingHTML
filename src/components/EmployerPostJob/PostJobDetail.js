@@ -11,7 +11,7 @@ export default {
             task: {
                 userID: null,
                 title: '',
-                imageUrl:'',
+                imageUrl: '',
                 describe: '',
                 duration: '',
                 location: '',
@@ -55,8 +55,32 @@ export default {
                 alert("failed to get the data")
             }
         })
+        // 如果是模板按钮跳转至此页面，填充
+        const queryParams = this.$route.query;
+        if (queryParams && queryParams.task) {
+            this.task.title = queryParams.task.title || '';
+            this.task.describe = queryParams.task.content || '';
+            this.task.duration = Number(queryParams.task.duration) || 0;
+            this.task.salary = Number(queryParams.task.salary) || 0;
+            this.task.jobCategory = queryParams.task.taskId || null;
+
+            // 获取当前日期和时间
+            const currentDate = new Date();
+            // 格式化为 YYYY-MM-DD 格式
+            this.task.taskDate = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`;
+            // 格式化为 HH:MM 格式
+            this.task.taskTime = `${String(currentDate.getHours()).padStart(2, '0')}:${String(currentDate.getMinutes()).padStart(2, '0')}`;
+
+            this.task.imageUrl = queryParams.task.imageUrl || null;
+
+            // Only call this method if tagId is present in queryParams.task
+            if (queryParams.task.taskId) {
+                this.handleSelectionChange(this.task.jobCategory);
+            }
+        }
     },
     methods: {
+
         initWebsocket(){
             this.user = store.getters.getUserInfo;
             let userId = this.user.id;
@@ -216,5 +240,6 @@ export default {
 
 
         },
+
     },
 }

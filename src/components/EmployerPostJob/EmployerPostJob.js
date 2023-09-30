@@ -3,6 +3,16 @@ export default {
     components: {Header},
     data() {
         return {
+            task1: {
+                title: 'Professional Cleaning Services',
+                category: 'Household Services',
+                taskId: 1,
+                content: 'We are seeking experienced and diligent professionals for cleaning services in our residence. The tasks include general house cleaning, vacuuming, dusting, mopping, and bathroom cleaning.',
+                duration: 2,
+                salary: 50,
+                imageUrl: require("@/assets/img_3.png"),
+
+            },
             inputValue: '',
             inputTag:'',
             tags: [],
@@ -50,6 +60,13 @@ export default {
             //             alert("failed to get the data");
             //         }
             //     });
+        },
+        handleButtonClick1() {
+            console.log("按钮被点击了！");
+            // this.$router.push({ path: "/PostJobDetail", query: { title: "Professional Cleaning Services"
+            // , describe: "We are seeking experienced and diligent professionals for cleaning services in our residence. The tasks include general house cleaning, vacuuming, dusting, mopping, and bathroom cleaning."
+            // , duration: 2, salary: 50} });
+            this.$router.push({ path: "/PostJobDetail", query: { task: this.task1}});
         },
     }
 };
