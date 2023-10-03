@@ -23,49 +23,58 @@
 
       <el-card class="card" shadow="hover">
         <div class="card__body">
+          <img :src="task1.imageUrl" alt="Task Image" class="task-image">
           <h3>{{ task1.title }}</h3>
-          <p><strong>Task category:</strong> {{ task1.category }}</p>
-          <p><strong>Content:</strong> {{ task1.content }}</p>
-          <p><strong>Duration:</strong> {{ task1.duration }}</p>
-          <p><strong>Salary:</strong> {{ task1.salary }}</p>
-          <el-button @click="handleButtonClick1" class="card-button">Go</el-button>
+          <p><strong>Salary:</strong> ${{ task1.salary }}</p>
+          <el-button @click="handleButtonClick1" class="card-button">Post</el-button>
         </div>
       </el-card>
 
       <el-card class="card" shadow="hover">
         <div class="card__body">
-          <h3>Card Title</h3>
-          <p>Card description</p>
+          <img :src="task2.imageUrl" alt="Task Image" class="task-image">
+          <h3>{{ task2.title }}</h3>
+          <p><strong>Salary:</strong> ${{ task2.salary }}</p>
+          <el-button @click="handleButtonClick2" class="card-button">Post</el-button>
         </div>
       </el-card>
 
       <el-card class="card" shadow="hover">
         <div class="card__body">
-          <h3>Card Title</h3>
-          <p>Card description</p>
+          <img :src="task3.imageUrl" alt="Task Image" class="task-image">
+          <h3>{{ task3.title }}</h3>
+          <p><strong>Salary:</strong> ${{ task3.salary }}</p>
+          <el-button @click="handleButtonClick3" class="card-button">Post</el-button>
         </div>
       </el-card>
 
       <el-card class="card" shadow="hover">
         <div class="card__body">
-          <h3>Card Title</h3>
-          <p>Card description</p>
+          <img :src="task4.imageUrl" alt="Task Image" class="task-image">
+          <h3>{{ task4.title }}</h3>
+          <p><strong>Salary:</strong> ${{ task4.salary }}</p>
+          <el-button @click="handleButtonClick4" class="card-button">Post</el-button>
         </div>
       </el-card>
 
       <el-card class="card" shadow="hover">
         <div class="card__body">
-          <h3>Card Title</h3>
-          <p>Card description</p>
+          <img :src="task5.imageUrl" alt="Task Image" class="task-image">
+          <h3>{{ task5.title }}</h3>
+          <p><strong>Salary:</strong> ${{ task5.salary }}</p>
+          <el-button @click="handleButtonClick5" class="card-button">Post</el-button>
         </div>
       </el-card>
 
       <el-card class="card" shadow="hover">
         <div class="card__body">
-          <h3>Card Title</h3>
-          <p>Card description</p>
+          <img :src="task6.imageUrl" alt="Task Image" class="task-image">
+          <h3>{{ task6.title }}</h3>
+          <p><strong>Salary:</strong> ${{ task6.salary }}</p>
+          <el-button @click="handleButtonClick6" class="card-button">Post</el-button>
         </div>
       </el-card>
+
 
     </div>
   </div>
@@ -160,14 +169,14 @@
 }
 
 .card__body {
-  padding: 14px;
   position: relative;
 }
 
 .card-button {
   position: absolute;
-  right: 10px;
-  bottom: 10px;
+  right: 0px;
+  bottom: 0px;
+  padding-top: 10px;
   z-index: 1;
 }
 @media (max-width: 1000px) {
@@ -183,8 +192,17 @@
   }
   .card {
     width: calc(100% - 10px);
-    height:200px;
+    height:300px;
   }
 }
+.task-image {
+  width: 100%;     /* 充满整个容器的宽度 */
+  height: 200px;   /* 更改此处，固定高度为200px */
+  max-height: 50%;
+  display: block;  /* 使图片块级显示，占据整行 */
+  margin-bottom: 10px;  /* 图片和下面的内容之间的间距 */
+  object-fit: cover; /* 让图片保持纵横比并填充其容器 */
+}
+
 
 </style>
