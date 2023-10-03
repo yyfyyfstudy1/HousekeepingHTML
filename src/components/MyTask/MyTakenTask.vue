@@ -7,7 +7,7 @@
         <el-menu style="height: 100%;"
                  router>
           <el-menu-item index="/myTask">My posted tasks</el-menu-item>
-          <el-menu-item index="/myTakenTask">My token tasks</el-menu-item>
+          <el-menu-item index="/myTakenTask">My taken tasks</el-menu-item>
         </el-menu>
       </el-aside>
       <div class="board">
