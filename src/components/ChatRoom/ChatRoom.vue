@@ -28,8 +28,30 @@
             </div>
 
             <div style="height: 350px; overflow:auto; border-top: 1px solid #ccc" ref="scrollDiv">
-              <div ref="content" v-html="content"></div>
+              <chat-bubble
+                  v-for="message in messages"
+                  :key="message.id"
+                  :nowUser="message.isNowUser"
+                  :remoteUser="!message.isNowUser"
+                  :text="message.text"
+                  :avatarUrl="message.avatarUrl"
+              ></chat-bubble>
+
             </div>
+            <!-- 翻译上下文菜单 -->
+            <el-popover
+                ref="translatePopover"
+                placement="top"
+                width="160"
+                v-model="translateMenuVisible"
+            >
+              <el-list size="small">
+                <el-list-item @click="onLanguageSelected('en')">英文</el-list-item>
+                <el-list-item @click="onLanguageSelected('zh-CN')">中文</el-list-item>
+                <el-list-item @click="onLanguageSelected('fr')">法语</el-list-item>
+                <el-list-item @click="onLanguageSelected('ja')">日语</el-list-item>
+              </el-list>
+            </el-popover>
 
             <div style="height: 200px">
             <textarea v-model="text" style="height: 160px; width: 95%; padding: 20px; border: none; border-top: 1px solid #ccc;
