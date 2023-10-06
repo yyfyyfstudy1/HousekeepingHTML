@@ -14,6 +14,7 @@ import TaskStatusHandlerLabor from "../components/TaskStatusHandler/statusHandle
 import store from '../store'; // 导入Vuex store
 import myTask from "../components/MyTask/MyTask.vue";
 import myTakenTask from "../components/MyTask/MyTakenTask.vue";
+import Calendar from "../components/Calendar/Calendar.vue";
 
 const router = new VueRouter({
     mode: 'history',    // Routing mode, this mode will not display the pound sign # in the address
@@ -106,6 +107,12 @@ const router = new VueRouter({
             path: '/myTakenTask',
             name: 'myTakenTask',
             component: myTakenTask,
+            meta: { requiresAuth: true, allowedRoles: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN'] }
+        },
+        {
+            path: '/calendar',
+            name: 'Calendar',
+            component: Calendar,
             meta: { requiresAuth: true, allowedRoles: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN'] }
         },
     ]

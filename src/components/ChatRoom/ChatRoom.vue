@@ -28,7 +28,15 @@
             </div>
 
             <div style="height: 350px; overflow:auto; border-top: 1px solid #ccc" ref="scrollDiv">
-              <div ref="content" v-html="content"></div>
+              <chat-bubble
+                  v-for="message in messages"
+                  :key="message.id"
+                  :nowUser="message.isNowUser"
+                  :remoteUser="!message.isNowUser"
+                  :text="message.text"
+                  :avatarUrl="message.avatarUrl"
+              ></chat-bubble>
+
             </div>
 
             <div style="height: 200px">
@@ -49,22 +57,4 @@
 
 </script>
 <style>
-.tip {
-  color: white;
-  text-align: center;
-  border-radius: 10px;
-  font-family: sans-serif;
-  padding: 10px;
-  width: auto;
-  display: inline-block !important;
-  display: inline;
-}
-
-.right {
-  background-color: deepskyblue;
-}
-
-.left {
-  background-color: forestgreen;
-}
 </style>
