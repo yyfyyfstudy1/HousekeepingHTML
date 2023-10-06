@@ -87,7 +87,8 @@ export default {
             // Simulate submitting and receiving taskDescribe and taskImageU
             this.$axios.post(this.$httpurl + '/public/tasks/getDistribute', {
                 cv: this.resumeForm.combineText,
-                tags: this.selectedTagsID
+                tags: this.selectedTagsID,
+                userId: this.userId
             })
                 .then(res => res.data)
                 .then(res => {
