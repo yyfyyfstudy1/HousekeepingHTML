@@ -38,20 +38,6 @@
               ></chat-bubble>
 
             </div>
-            <!-- 翻译上下文菜单 -->
-            <el-popover
-                ref="translatePopover"
-                placement="top"
-                width="160"
-                v-model="translateMenuVisible"
-            >
-              <el-list size="small">
-                <el-list-item @click="onLanguageSelected('en')">英文</el-list-item>
-                <el-list-item @click="onLanguageSelected('zh-CN')">中文</el-list-item>
-                <el-list-item @click="onLanguageSelected('fr')">法语</el-list-item>
-                <el-list-item @click="onLanguageSelected('ja')">日语</el-list-item>
-              </el-list>
-            </el-popover>
 
             <div style="height: 200px">
             <textarea v-model="text" style="height: 160px; width: 95%; padding: 20px; border: none; border-top: 1px solid #ccc;
@@ -71,22 +57,4 @@
 
 </script>
 <style>
-.tip {
-  color: white;
-  text-align: center;
-  border-radius: 10px;
-  font-family: sans-serif;
-  padding: 10px;
-  width: auto;
-  display: inline-block !important;
-  display: inline;
-}
-
-.right {
-  background-color: deepskyblue;
-}
-
-.left {
-  background-color: forestgreen;
-}
 </style>

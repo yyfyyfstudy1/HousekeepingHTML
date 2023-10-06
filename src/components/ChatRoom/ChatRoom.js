@@ -24,7 +24,6 @@ export default {
 
             thisUserInfo:{},
             remoteUserInfo: {},
-            translateMenuVisible: false,
             translateText: '',
         }
     },
