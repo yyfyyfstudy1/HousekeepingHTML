@@ -64,6 +64,25 @@ export default {
 
 
     methods: {
+            getPaypal() {
+                // 在此处发送请求到后端控制器
+                // 使用axios或其他HTTP库发送请求到Spring Boot后端
+                const requestBody={
+                    taskId: 77
+                }
+                const token = store.getters.getToken;
+                console.log("999");
+                this.$axios.post(this.$httpurl+'/payal/pay',requestBody, {headers:{
+                        'Authorization':`Bearer ${token}`
+                    }})
+                    .then(response => {
+                     console.log(response);   // 处理后端的响应
+                    })
+                    .catch(error => {
+                        // 处理错误
+                    });
+            },
+
         stopTiming(){
             if (this.timer) {
                 clearInterval(this.timer);

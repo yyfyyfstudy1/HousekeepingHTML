@@ -1,3 +1,4 @@
+
 <template>
   <div style="display: flex; flex-direction: column; min-height: 100vh; background-color: #0D1E48;">
     <Header></Header>
@@ -8,6 +9,7 @@
         <el-step title="Task have finished"></el-step>
         <el-step title="Payment successful"></el-step>
       </el-steps>
+      <el-button type="primary" @click="getPaypal">pay here</el-button>
 
       <div :key="active">
 
@@ -75,6 +77,10 @@
 </template>
 
 <script src="./StatusHandlerEmployer.js">
+
+  export default {
+
+  };
 </script>
 
 <style>
