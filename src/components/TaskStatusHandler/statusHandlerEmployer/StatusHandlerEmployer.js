@@ -71,11 +71,12 @@ export default {
                     taskId: 77
                 }
                 const token = store.getters.getToken;
-                console.log("999");
-                this.$axios.post(this.$httpurl+'/payal/pay',requestBody, {headers:{
+                this.$axios.post(this.$httpurl+'/paypal/pay',requestBody, {
+                    headers:{
                         'Authorization':`Bearer ${token}`
                     }})
                     .then(response => {
+                        window.open(response.data, '_self')
                      console.log(response);   // 处理后端的响应
                     })
                     .catch(error => {

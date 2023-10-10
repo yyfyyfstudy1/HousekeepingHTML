@@ -19,6 +19,7 @@
                    :show-close="false"
                    :close-on-press-escape="false">
 
+
           <div class="center-and-bold">
             <img :src="tasker.avatarUrl" alt="Tasker Avatar" width="100"/>
             <p>Name: {{ tasker.name }}</p>
@@ -64,6 +65,11 @@
             The task have finished ! waiting for your next use
           </div>
         </transition>
+        <div>
+          <a href="#" @click="getPaypal">
+            <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-medium.png" alt="PayPal" />
+          </a>
+        </div>
 
         <div class="task-center-labor">
           <div class="task-horizontal-align-labor" @click="dumpToChatRoom">
