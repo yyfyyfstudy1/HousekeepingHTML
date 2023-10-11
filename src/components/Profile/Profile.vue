@@ -48,6 +48,16 @@
           <img slot="label" src="../../assets/email.png" alt="Email Icon" class="profile-icon"/>
           <el-input v-model="email" placeholder="Enter email"></el-input>
         </el-form-item>
+        <!-- introduction -->
+        <el-form-item class="input-container intro-container">
+          <img slot="label" src="../../assets/intro.png" alt="Email Icon" class="profile-icon"/>
+          <el-input
+              type="textarea"
+              v-model="introduction"
+              placeholder="Enter introduction"
+              :rows="5"
+          ></el-input>
+        </el-form-item>
 
         <div class="buttons-container">
           <el-button class="custom-button logout-button" @click="logOut" type="danger">Log Out</el-button>
@@ -78,7 +88,7 @@ body {
 }
 .profile-content {
   width: 90%;
-  max-width: 500px;
+  max-width:500px;
   margin: 0 auto;
 }
 .image-container {
@@ -91,20 +101,21 @@ body {
   margin-top: 10px;
 }
 .input-container {
-  margin-left: 20%;
   display: flex;
   align-items: stretch;
   margin-bottom: 15px;
+  margin-left: 20%;
   padding-left: 5%;
 }
 .buttons-container {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
+  //margin-top: 10px;
+  padding-top: 20px;
 }
 /* 使用相同的宽度设置 */
 .input-container, .buttons-container {
-  width: 60%;
+  width: 80%;
   max-width: 500px;
   margin: 0 auto;
 }
@@ -147,4 +158,18 @@ body {
   background-color: transparent;
   color: white;
 }
+.el-textarea .el-textarea__inner {
+  padding: 10px 15px;
+  border-radius: 15px;
+  border: 2px solid white;
+  background-color: transparent;
+  color: white;
+  resize: none;  /* 禁止用户调整大小 */
+}
+
+.input-container .el-form-item__content {
+  width: 70%;
+}
+
+
 </style>
