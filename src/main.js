@@ -16,7 +16,7 @@ Vue.prototype.$axios = axios;
 Vue.prototype.$httpurl = ' http://localhost:8082'
 Vue.prototype.$websocketurl = 'ws://localhost:8082'
 
-// Vue.prototype.$httpurl = ' http://172.20.10.5:8082'
+// Vue.prototype.$httpurl = 'http://172.20.10.5:8082'
 // Vue.prototype.$websocketurl = 'ws://172.20.10.5:8082'
 Vue.config.productionTip = false;
 Vue.use(VueParticles);

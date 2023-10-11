@@ -27,6 +27,11 @@
       <el-form-item label="password">
         <el-input type="password" v-model="loginForm.password" placeholder="enter password"></el-input>
       </el-form-item>
+      <el-form-item label="security">
+        <div id="grecaptcha"></div>
+      </el-form-item>
+
+
       <el-form-item>
         <el-button type="primary" @click="loginPress">Login</el-button>
         <el-button type="danger" @click="registerPress">Register</el-button>
