@@ -27,7 +27,9 @@ export default {
             jobTypes: [],
             tags: [],
             isLoading: false,
-            taskId: null
+            taskId: null,
+            newTag: '',
+            dialogVisible: false
         }
     },
 
@@ -80,6 +82,37 @@ export default {
         }
     },
     methods: {
+
+        // 用户新增tag
+        addTag() {
+            if (this.newTag && !this.tags.some(tag => tag.tagName === this.newTag)) {
+
+
+              const requestBody ={
+                  tagName:this.newTag,
+                  tagCreater: "general user",
+                  category :  this.task.category
+
+                }
+                // 发送请求，添加tag
+                this.$axios.post(this.$httpurl + '/public/taskTag/addTag', requestBody)
+                    .then(res => res.data)
+                    .then(res => {
+                    console.log(res)
+                    if (res.code === 200) {
+                        this.tags.push({ tagName: this.newTag, tagId: res.data });
+
+                        this.newTag = '';
+                        this.dialogVisible = false;
+                    } else {
+                        alert("failed to add the tag")
+                    }
+                })
+
+            } else {
+                alert('Tag already exists or input is empty!');
+            }
+        },
         updateAddress(place) {
             this.task.location = place.formatted_address;
         },
