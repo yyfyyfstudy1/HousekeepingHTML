@@ -80,7 +80,9 @@ export default {
         }
     },
     methods: {
-
+        updateAddress(place) {
+            this.task.location = place.formatted_address;
+        },
         initWebsocket(){
             this.user = store.getters.getUserInfo;
             let userId = this.user.id;

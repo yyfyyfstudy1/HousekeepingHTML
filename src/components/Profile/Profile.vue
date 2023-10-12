@@ -36,7 +36,9 @@
         <!-- Address Field -->
         <el-form-item class="input-container">
           <img slot="label" src="../../assets/address.png" alt="Address Icon" class="profile-icon"/>
-          <el-input v-model="address" placeholder="Enter address"></el-input>
+
+          <AddressAutocomplete v-model="address" style="width: 300px; height: 40px"></AddressAutocomplete>
+
         </el-form-item>
         <!-- Phone Field -->
         <el-form-item class="input-container">

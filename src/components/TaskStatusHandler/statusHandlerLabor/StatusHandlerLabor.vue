@@ -19,8 +19,8 @@
               <span class="highlight">{{ formatDate(taskDetail.taskBeginTime) }}</span>
             </h2>
             <MyMap v-if="mapsApiLoaded"
-                   :startLocation="startLat"
-                   :endLocation="startLng"
+                   :startLocation="laborAddress"
+                   :endLocation="taskAddress"
                    style="margin-top: 20px"></MyMap>
 
             <el-button @click="confirmArrived(2)" size="big" type="success" style="margin-top: 20px; color: #5b5b5b; font-weight: bold; margin-left:40%">

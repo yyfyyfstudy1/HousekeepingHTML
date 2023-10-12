@@ -24,6 +24,7 @@ export default {
         // 开始接收后端传递的消息
         this.initWebsocket();
 
+
         // 异步加载Google Maps API，然后设置mapsApiLoaded为true
         let script = document.createElement('script');
         script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDM_dL6KmNoXYqXsAR8HFsYAftHpIVk4Mg';
@@ -65,8 +66,8 @@ export default {
             active: 0,  // 当前的状态
             taskDetail:{},
             mapsApiLoaded: false,
-            startLat: "3301 Botany Rd, Zetland NSW 2017",
-            startLng: "102 Regent St, Redfern NSW 2016",
+            laborAddress: "3301 Botany Rd, Zetland NSW 2017",
+            taskAddress: "102 Regent St, Redfern NSW 2016",
 
             time: 0,
             timer: null,
@@ -288,6 +289,7 @@ export default {
         initWebsocket(){
             this.user = store.getters.getUserInfo;
             let userId = this.user.id;
+            this.fetchUserProfile();
             if (typeof (WebSocket) == "undefined") {
                 console.log("您的浏览器不支持WebSocket");
             } else {
@@ -352,10 +354,28 @@ export default {
                 .then(res => {
                     if (res.code === 200) {
                         console.log(res.data)
-                       this.taskDetail = res.data
+                        this.taskDetail = res.data
+                        this.taskAddress = res.data.taskLocation
                     } else {
                         this.$message.error(res.data)
                     }
+                });
+        },
+
+        fetchUserProfile() {
+            this.$axios.get(this.$httpurl + '/user/profile', {
+                params: { id: this.user.id }  // 根据需要动态传入用户ID
+            })
+                .then(response => {
+                    if (response.data.code === 200) {
+                        const userData = response.data.data;
+                        this.laborAddress = userData.address;
+                    } else {
+                        console.error("Error fetching profile:", response.data.msg);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching profile:", error.response ? error.response.data : error.message);
                 });
         },
         beforeDestroy() {

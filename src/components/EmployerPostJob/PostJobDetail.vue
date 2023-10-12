@@ -62,7 +62,7 @@
           </el-form-item>
 
           <el-form-item label="Address" prop="location">
-            <el-input v-model="task.location"></el-input>
+            <GmapAutocomplete @place_changed="updateAddress" style="width: 300px; height: 40px"></GmapAutocomplete>
           </el-form-item>
           <el-form-item label="Salary" prop="reward">
             <el-input v-model="task.salary"></el-input>

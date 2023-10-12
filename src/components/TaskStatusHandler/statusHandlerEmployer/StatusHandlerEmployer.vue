@@ -104,8 +104,6 @@
 
 
 
-
-
           </div>
           <div v-if="active === 4">
             The task have finished ! waiting for your next use
