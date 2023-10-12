@@ -68,7 +68,7 @@ export default {
                 // 在此处发送请求到后端控制器
                 // 使用axios或其他HTTP库发送请求到Spring Boot后端
                 const requestBody={
-                    taskId: 77
+                    taskId: this.taskId
                 }
                 const token = store.getters.getToken;
                 this.$axios.post(this.$httpurl+'/paypal/pay',requestBody, {
@@ -84,22 +84,22 @@ export default {
                     });
             },
 
-        stopTiming(){
-            if (this.timer) {
-                clearInterval(this.timer);
-                this.timer = null;
-            }
-        },
-        getOldTime(){
-            const token = store.getters.getToken;
-            this.$axios.get(this.$httpurl + '/member/employer/getTaskPhaseFourBeginTime', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
-                params: {
-                    taskId: this.taskId,
+            stopTiming(){
+                if (this.timer) {
+                    clearInterval(this.timer);
+                    this.timer = null;
                 }
-            })
+            },
+             getOldTime(){
+                const token = store.getters.getToken;
+                this.$axios.get(this.$httpurl + '/member/employer/getTaskPhaseFourBeginTime', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    params: {
+                        taskId: this.taskId,
+                    }
+                })
                 .then(res => res.data)
                 .then(res => {
                     if (res.code === 200) {

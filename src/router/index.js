@@ -16,6 +16,8 @@ import myTask from "../components/MyTask/MyTask.vue";
 import myTakenTask from "../components/MyTask/MyTakenTask.vue";
 import Calendar from "../components/Calendar/Calendar.vue";
 
+import PaymentSuccessful from "../components/PaymentStatus/PaymentSuccessful.vue";
+
 const router = new VueRouter({
     mode: 'history',    // Routing mode, this mode will not display the pound sign # in the address
     routes: [
@@ -113,6 +115,13 @@ const router = new VueRouter({
             path: '/calendar',
             name: 'Calendar',
             component: Calendar,
+            meta: { requiresAuth: true, allowedRoles: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN'] }
+        },
+
+        {
+            path: '/pay/payment-success',
+            name: 'PaymentSuccessful',
+            component: PaymentSuccessful,
             meta: { requiresAuth: true, allowedRoles: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN'] }
         },
     ]
