@@ -74,6 +74,8 @@ export default {
             confirmDialogVisible: false,
             currentAction: 0, // 1 for task completion, 2 for stopping timer
             taskPhase: 0,
+
+            laborWorkDuration: 0,
             // endLat: -35.397,
             // endLng: 151.644
         };
@@ -145,8 +147,6 @@ export default {
                     });
 
             }else if (this.currentAction === 3) {
-
-
 
                 // 发送请求，更新状态回到4
                 const requestBody = {
@@ -319,6 +319,7 @@ export default {
                         console.log("wdffffffffff")
                         // update the status bar phase is 3
                         this.active = parseFloat(JsonMessage.phase) - 2;
+
                     }
                 };
 
@@ -332,6 +333,7 @@ export default {
                 }
             }
         },
+
         formatDate(timestamp) {
             let date = new Date(timestamp);
             return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
