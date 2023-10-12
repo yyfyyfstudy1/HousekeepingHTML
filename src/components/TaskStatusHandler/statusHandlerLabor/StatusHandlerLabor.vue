@@ -77,7 +77,7 @@
           </div>
           <div v-if="active === 4">
             <div class="task-center">
-              骑手正在赶往商家，准备取货。
+              employer has finished the payment, you can check your balance
             </div>
 
           </div>

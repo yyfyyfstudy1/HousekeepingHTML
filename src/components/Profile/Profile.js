@@ -9,7 +9,8 @@ export default {
             address: '',
             phone: '',
             email: '',
-            avatarUrl: ''
+            avatarUrl: '',
+            introduction: ''
             // imageUrl: require('@/assets/img_2.png')
         };
     },
@@ -71,6 +72,7 @@ export default {
                         this.phone = userData.phone;
                         this.email = userData.email;
                         this.avatarUrl = userData.avatarUrl;
+                        this.introduction = userData.introduction;
                     } else {
                         console.error("Error fetching profile:", response.data.msg);
                     }
@@ -86,7 +88,8 @@ export default {
                 name: this.name,
                 phone: this.phone,
                 address: this.address,
-                avatarUrl: this.avatarUrl
+                avatarUrl: this.avatarUrl,
+                introduction: this.introduction
                 // 移除了 email 和 address 字段，因为后端不需要这些字段
             })
                 .then(res => res.data)

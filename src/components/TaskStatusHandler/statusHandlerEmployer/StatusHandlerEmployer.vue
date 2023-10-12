@@ -1,3 +1,4 @@
+
 <template>
   <div style="display: flex; flex-direction: column; min-height: 100vh; background-color: #0D1E48;">
     <Header></Header>
@@ -8,6 +9,7 @@
         <el-step title="Task have finished"></el-step>
         <el-step title="Payment successful"></el-step>
       </el-steps>
+      <el-button type="primary" @click="getPaypal">pay here</el-button>
 
       <div :key="active">
 
@@ -16,6 +18,7 @@
                    :close-on-click-modal="false"
                    :show-close="false"
                    :close-on-press-escape="false">
+
 
           <div class="center-and-bold">
             <img :src="tasker.avatarUrl" alt="Tasker Avatar" width="100"/>
@@ -62,6 +65,11 @@
             The task have finished ! waiting for your next use
           </div>
         </transition>
+        <div>
+          <a href="#" @click="getPaypal">
+            <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-medium.png" alt="PayPal" />
+          </a>
+        </div>
 
         <div class="task-center-labor">
           <div class="task-horizontal-align-labor" @click="dumpToChatRoom">
@@ -75,6 +83,10 @@
 </template>
 
 <script src="./StatusHandlerEmployer.js">
+
+  export default {
+
+  };
 </script>
 
 <style>
