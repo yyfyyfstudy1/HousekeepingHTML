@@ -64,22 +64,42 @@ export default {
 
 
     methods: {
-        stopTiming(){
-            if (this.timer) {
-                clearInterval(this.timer);
-                this.timer = null;
-            }
-        },
-        getOldTime(){
-            const token = store.getters.getToken;
-            this.$axios.get(this.$httpurl + '/member/employer/getTaskPhaseFourBeginTime', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
-                params: {
-                    taskId: this.taskId,
+            getPaypal() {
+                // 在此处发送请求到后端控制器
+                // 使用axios或其他HTTP库发送请求到Spring Boot后端
+                const requestBody={
+                    taskId: this.taskId
                 }
-            })
+                const token = store.getters.getToken;
+                this.$axios.post(this.$httpurl+'/paypal/pay',requestBody, {
+                    headers:{
+                        'Authorization':`Bearer ${token}`
+                    }})
+                    .then(response => {
+                        window.open(response.data, '_self')
+                     console.log(response);   // 处理后端的响应
+                    })
+                    .catch(error => {
+                        // 处理错误
+                    });
+            },
+
+            stopTiming(){
+                if (this.timer) {
+                    clearInterval(this.timer);
+                    this.timer = null;
+                }
+            },
+             getOldTime(){
+                const token = store.getters.getToken;
+                this.$axios.get(this.$httpurl + '/member/employer/getTaskPhaseFourBeginTime', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    params: {
+                        taskId: this.taskId,
+                    }
+                })
                 .then(res => res.data)
                 .then(res => {
                     if (res.code === 200) {
