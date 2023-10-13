@@ -77,6 +77,7 @@ export default {
             taskPhase: 0,
 
             laborWorkDuration: 0,
+            isLoading: true  // 初始化 isLoading 变量
             // endLat: -35.397,
             // endLng: 151.644
         };

@@ -45,6 +45,7 @@ export default {
   align-items: center;
   height: 100%;
   padding: 20px;
+  background: linear-gradient(to bottom, #0D1E48, #1F3A68);
 }
 
 .card {
@@ -54,6 +55,12 @@ export default {
   margin-bottom: 150px;
   padding: 20px;
   border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .card img {
@@ -63,7 +70,20 @@ export default {
 }
 
 .card-text h3 {
-  font-size: 18px;
+  font-size: 20px;
   margin-bottom: 10px;
+  color: #333;
+}
+
+.el-button {
+  background-color: #007BFF;
+  border-color: #007BFF;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.el-button:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
 }
 </style>

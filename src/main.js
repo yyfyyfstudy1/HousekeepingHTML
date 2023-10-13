@@ -12,6 +12,11 @@ import router from './router'
 import VueRouter from 'vue-router'
 import VCalendar from 'v-calendar';
 
+import VueLoading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+
+Vue.use(VueLoading);
+
 Vue.prototype.$axios = axios;
 Vue.prototype.$httpurl = ' http://localhost:8082'
 Vue.prototype.$websocketurl = 'ws://localhost:8082'

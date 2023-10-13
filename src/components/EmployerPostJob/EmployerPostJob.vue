@@ -3,19 +3,11 @@
     <Header></Header>
     <div class="centered-container">
       <div class="content">
-        <el-input v-model="inputValue" placeholder="请输入内容"></el-input>
 
-        <div v-if="selectedTags.length > 0" class="selected-tags">
-          <span class="tag" v-for="(tag, index) in selectedTags" :key="index">{{ tag.tagName }}</span>
-        </div>
-        <el-button @click="handleButtonClick" type="success" style="margin-top: 10px">Search what you may want to do</el-button>
+        <h2 class="content-title">Select the template task below, or go directly to the task release page</h2>
+        <el-button @click="handleButtonClick" type="success" style="margin-top: 10px">Go to task release page</el-button>
       </div>
-      <el-checkbox-group v-model="selectedTags" class="checkbox-container">
-        <el-checkbox v-for="tag in tags" :label="tag" :key="tag.tagId" class="floating-checkbox">{{
-            tag.tagName
-          }}
-        </el-checkbox>
-      </el-checkbox-group>
+
 
     </div>
 
@@ -108,8 +100,18 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
-}
 
+}
+.content-title {
+  font-size: 24px; /* 增大字体大小 */
+  font-weight: bold; /* 加粗字体 */
+  margin-bottom: 20px; /* 提供一些间距 */
+  color: #333; /* 字体颜色，可以根据你的设计需求进行调整 */
+  text-align: center; /* 居中标题 */
+  background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+  -webkit-background-clip: text;
+  color: transparent;
+}
 .checkbox-container {
   margin-top: 20px;
   display: flex;
