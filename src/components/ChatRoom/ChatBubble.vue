@@ -29,7 +29,7 @@
           {{ text }}
         </div>
       </div>
-      <div v-if="translatedText" class="translated-bubble">
+      <div v-if="translatedText" class="translated-bubble left-translated">
         {{ translatedText }}
       </div>
     </div>
@@ -42,10 +42,10 @@
         trigger="manual">
 
       <el-menu @select="handleTranslate">
-        <el-menu-item index="en">英文</el-menu-item>
-        <el-menu-item index="zh-CN">中文</el-menu-item>
-        <el-menu-item index="fr">法语</el-menu-item>
-        <el-menu-item index="ja">日语</el-menu-item>
+        <el-menu-item index="en">English</el-menu-item>
+        <el-menu-item index="zh-CN">Chinese</el-menu-item>
+        <el-menu-item index="fr">French</el-menu-item>
+        <el-menu-item index="ja">Japanese</el-menu-item>
       </el-menu>
     </el-popover>
 
@@ -71,7 +71,10 @@
   float: right;
   margin-right: 80px;
 }
-
+.left-translated{
+  float: left;
+  margin-left: 10px;
+}
 .right {
   background-color: deepskyblue;
 }

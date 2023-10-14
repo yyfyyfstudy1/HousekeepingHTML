@@ -110,13 +110,6 @@ export default {
                     console.error("An error occurred while updating the profile:", error);
                 });
         },
-        logOut() {
-            // 1. Update the store state
-            store.commit('setIsLoggedIn', false);
-            store.commit('setToken', null);
-            // 2. Redirect to the login page
-            this.$router.push('/'); // Assuming the route path for your login page is '/login'
-        }
 
     }
 };
