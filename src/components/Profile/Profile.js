@@ -1,8 +1,8 @@
 import Header from "../Header.vue";
 import store from "@/store";
- 
+import AddressAutocomplete from './AddressAutocomplete.vue';
 export default {
-    components: {Header},
+    components: {Header, AddressAutocomplete},
     data() {
         return {
             name: '',
@@ -26,6 +26,9 @@ export default {
         this.fetchUserProfile();
     },
     methods: {
+        updateAddress(place) {
+            this.address = place.formatted_address;
+        },
         // 选择文件的方法
         chooseFile() {
             // console.log("Choosing file...");
@@ -107,13 +110,6 @@ export default {
                     console.error("An error occurred while updating the profile:", error);
                 });
         },
-        logOut() {
-            // 1. Update the store state
-            store.commit('setIsLoggedIn', false);
-            store.commit('setToken', null);
-            // 2. Redirect to the login page
-            this.$router.push('/'); // Assuming the route path for your login page is '/login'
-        }
 
     }
 };

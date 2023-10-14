@@ -9,11 +9,21 @@
         </div>
       </el-loading>
     </div>
+    <h1 style="text-align: center; margin-top: 20px">
+      <span style="color: #FF5733;">Here are </span>
+      <span style="color: #5733FF;">two tasks </span>
+      <span style="color: #fff300;">we </span>
+      <span style="color: #fff300;">have </span>
+      <span style="color: #fff300;">chosen </span>
+      <span style="color: #FF6B33;">for </span>
+      <span style="color: #41FF33;">you</span>
+    </h1>
+
     <div class="card-container">
       <el-card class="outer-card" shadow="hover" v-for="(item, index) in data" :key="index">
         <h5 class="task-title">{{ item.task.taskTitle }}</h5>
         <div class="inner-card" shadow="hover" @click="handleCardClick(item.task.taskId)">
-            <p  style="color: white;"><span style="color: #ffda00">Time: </span> {{ item.task.taskBeginTime }}</p>
+            <p style="color: white;"><span style="color: #ffda00">Time: </span> {{ formatTimestampToDate(item.task.taskBeginTime) }}</p>
             <p style="color: white; margin-top: 10px"><span style="color: #ffda00">Address: </span>{{ item.task.taskLocation }}</p>
             <p style="color: white; margin-top: 10px"><span style="color: #ffda00">Salary: </span>$ {{ item.task.taskSalary }}</p>
             <p style="color: white; margin-top: 10px"><span style="color: #ffda00">Estimated Time: </span>{{ item.task.taskEstimatedDuration }} / hour</p>
@@ -21,13 +31,13 @@
               <span style="color: #ffda00">Task detail: </span>{{ truncate(item.task.taskDescribe, 100) }}
             </p>
 
-          <el-image src="https://images.openai.com/blob/dc934ef7-f0cb-4f5f-bbae-51aa7b0550d9/openai-api.jpg?trim=0,0,0,0&width=3200"
-                    style="width: 100px; height: 100px; margin: 0 auto; display: block; padding-top: 10px"
+          <el-image :src="item.task.taskImageUrl"
+                    style="width: 130px; height: 100px; margin: 0 auto; display: block; padding-top: 10px"
                     @click.stop="showBigImage(item.task.taskImageUrl)">
           </el-image>
           <div class="flex-container-gpttext">
             <img src="../../assets/robot.png" alt="System reason" style="width: 30px; height: 30px;"/>
-            <p style="color: wheat; padding-left:10px">{{ truncate(item.gptReply, 100) }}</p>
+            <p style="color: wheat; padding-left:10px">{{ truncate(item.gptReply, 300) }}</p>
           </div>
         </div>
       </el-card>
@@ -37,7 +47,7 @@
       </el-dialog>
     </div>
     <div class="centered-button">
-      <el-button type="primary" @click="handleButtonClick" class="refreshButton">Refresh task</el-button>
+      <el-button type="warning" @click="handleButtonClick" class="refreshButton" style="width: 200px; color: black">Refresh task</el-button>
     </div>
   </div>
 </template>
@@ -78,8 +88,8 @@
 }
 
 .outer-card {
-  width: 300px;
-  height: 450px;
+  width: 450px;
+  height:580px;
   background-color: #0D1E48;
   border-radius: 10px;
   border: 2px solid #ffda00; /* 设置边框样式 */

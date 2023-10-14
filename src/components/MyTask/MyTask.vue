@@ -2,12 +2,16 @@
   <div style="height: 100vh">
     <Header></Header>
     <div class="myTask-page">
-      <el-aside width="200px">
+      <el-aside width="200px" class="custom-aside">
         <!-- 第一个栏目 -->
-        <el-menu style="height: 100%;"
-                 router>
-          <el-menu-item index="/myTask">My posted tasks</el-menu-item>
-          <el-menu-item index="/myTakenTask">My taken tasks</el-menu-item>
+        <el-menu
+            text-color="#fff"
+            active-text-color="#fffc05"
+            style="height: 100%;"
+            class="custom-menu"
+            router>
+          <el-menu-item index="/myTask" style="color: white; font-weight: bold; font-size: 20px">My posted tasks</el-menu-item>
+          <el-menu-item index="/myTakenTask" style="color: white; font-weight: bold; font-size: 20px">My taken tasks</el-menu-item>
         </el-menu>
       </el-aside>
       <div class="board">
@@ -16,7 +20,10 @@
         </div>
         <el-table
             ref="filterTable"
+            :cell-style="{background:'#0D1E48',padding: '0',textAlign: 'center', color:'#ffffff', fontSize:'20px', height:'100px'}"
+            :header-cell-style="{background:'#0D1E48', color: '#ffffff', fontSize:'25px',textAlign: 'center', fontweight:700}"
             :data="tableData"
+            :row-class-name="getRowClassName"
             style="width: 100%"
             class="table-color">
           <el-table-column
@@ -28,11 +35,12 @@
               label="title"
               sortable
               width="250">
-              <template slot-scope="scope">
-                <router-link :to="{ name: 'TaskStatusHandlerEmployer', query: { id: scope.row.taskId } }">
-                  {{ scope.row.taskTitle }}
-                </router-link>
-              </template>
+            <template slot-scope="scope">
+              <router-link :to="{ name: 'TaskStatusHandlerEmployer', query: { id: scope.row.taskId } } "
+                           class="custom-link">
+                {{ scope.row.taskTitle }}
+              </router-link>
+            </template>
           </el-table-column>
           <el-table-column
               prop="taskSalary"
@@ -70,12 +78,13 @@
                          { text: 'employer confirm', value: 'employer confirm' }, { text: 'labor is arrived', value: 'labor is arrived' },
                          { text: 'labor is finished work', value: 'labor is finished work' }, { text: 'employer confirm finished', value: 'employer confirm finished' }]"
               :filter-method="statusFilterHandler">
-              <template slot-scope="scope">
-                <el-tag
-                    :type="getStatusTagType(scope.row.taskPhaseDescribe)"
-                    disable-transitions
-                >{{ scope.row.taskPhaseDescribe }}</el-tag>
-              </template>
+            <template slot-scope="scope">
+              <el-tag
+                  :type="getStatusTagType(scope.row.taskPhaseDescribe)"
+                  disable-transitions
+              >{{ scope.row.taskPhaseDescribe }}
+              </el-tag>
+            </template>
           </el-table-column>
         </el-table>
       </div>
@@ -93,7 +102,7 @@
   display: flex;
   height: 100%;
   margin: 0; /* 删除外边距以消除任何额外的空隙 */
-  background-color: #FFFFFF;
+  background-color: #0D1E48;
 }
 
 .board {
@@ -103,15 +112,16 @@
   align-items: center;
   overflow-y: auto;
   height: 100%; /* 设置高度为100%以覆盖整个页面 */
-  background-color: #FFFFFF;
+  background-color: #0D1E48;
+  overflow-x: hidden; /* 隐藏横向滚动条 */
 }
 
 .el-aside {
   height: 100%; /* 设置高度为100%以覆盖整个页面 */
-  background-color: #FFFFFF
+  background-color: #182657
 }
 
-.el-button{
+.el-button {
   background-color: rgb(238, 241, 246);
 }
 
@@ -120,10 +130,48 @@
   justify-content: flex-end;
   align-items: center;
   width: 100%;
-  background-color: #aaaaaa;
+  background-color: #0D1E48;
 }
 
 .table-color {
-  background-color: #FFFFFF;
+  background-color: #0D1E48;
 }
+
+.normal-row {
+  color: #eeeeee;
+}
+
+.custom-link {
+  color: gold;
+}
+
+/* 当你将鼠标悬停在链接上时，如果你不想改变颜色，可以这样指定 */
+.custom-link:hover {
+  color: gold;
+}
+
+.custom-menu {
+  padding: 0; /* 移除内边距 */
+  border: none; /* 移除边框 */
+  height: 100%;
+  /*width: 100%;*/
+
+  margin-top: 30px;
+  background-color: transparent;
+  font-size: 36px
+}
+
+.custom-aside::-webkit-scrollbar {
+  display: none; /* 对于Chrome, Safari和新的Edge */
+}
+
+.custom-aside {
+  -ms-overflow-style: none; /* 对于IE和Edge */
+  scrollbar-width: none; /* 对于Firefox */
+}
+
+
+
+
+
 </style>

@@ -3,17 +3,25 @@
     <Header ref="headerComponent"></Header>
     <div class="profile-page">
 
+      <!-- 大图片容器 -->
+      <div class="scenery-container">
+        <img src="../../assets/pexels-juan-pablo-serrano-arenas-904276.jpg" alt="Scenery" class="scenery-image">
+      </div>
       <el-form class="profile-content">
+
         <!-- 容器，用于包含图片选择按钮和预览 -->
         <div class="image-container">
+          <!-- 预览图片 -->
           <!-- 预览图片 -->
           <el-form-item prop="preview" v-if="avatarUrl">
             <el-image
                 :src="avatarUrl"
-                fit="contain"
-                style="max-width: 100px; max-height: 100px; cursor: pointer;"
+                fit="cover"
+                style="width: 110px; height: 110px; cursor: pointer; border-radius: 50%;"
             ></el-image>
           </el-form-item>
+
+
           <!-- 添加图片选择按钮 -->
           <el-form-item class="file-container">
             <input
@@ -24,7 +32,9 @@
                 @change="handleFileChange"
             />
             <!-- 使用 custom-button 类设置通用样式 -->
-            <el-button size="small" type="danger" class="custom-button select-file-button" @click="chooseFile">Update Image</el-button>
+            <el-button size="small" type="danger" class="custom-button select-file-button" @click="chooseFile">Update
+              Image
+            </el-button>
           </el-form-item>
         </div>
 
@@ -36,7 +46,9 @@
         <!-- Address Field -->
         <el-form-item class="input-container">
           <img slot="label" src="../../assets/address.png" alt="Address Icon" class="profile-icon"/>
-          <el-input v-model="address" placeholder="Enter address"></el-input>
+
+          <AddressAutocomplete v-model="address" style="width: 300px; height: 40px"></AddressAutocomplete>
+
         </el-form-item>
         <!-- Phone Field -->
         <el-form-item class="input-container">
@@ -60,8 +72,9 @@
         </el-form-item>
 
         <div class="buttons-container">
-          <el-button class="custom-button logout-button" @click="logOut" type="danger">Log Out</el-button>
-          <el-button class="custom-button save-button" @click="updateProfile" type="primary">Save</el-button>
+          <el-button class="custom-button save-button" @click="updateProfile" type="primary" style="width: 230px">Update
+            Profile
+          </el-button>
         </div>
       </el-form>
     </div>
@@ -76,30 +89,51 @@ body, html {
   height: 100%;
   margin: 0;
 }
+
 body {
   background-color: #0D1E48;
 }
+
 .profile-page {
-  display: flex;
+  display: flex; /* 水平布局 */
   justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  align-items: stretch;
+  height: 100vh;
   padding: 5px;
 }
-.profile-content {
-  width: 90%;
-  max-width:500px;
-  margin: 0 auto;
+
+.scenery-container {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  margin-top: 20px;
+  border-top-right-radius: 150px; /* 右上角圆角 */
+  height: 105%;
+
 }
+
+.scenery-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 使图片填充容器并裁剪任何溢出的部分 */
+}
+
+.profile-content {
+  flex: 1; /* 使它占据右侧的空间 */
+  max-width: 550px;
+  height: 100%;
+  border-radius: 20px;
+  padding: 20px;
+  color: white;
+}
+
 .image-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 20px 0;
 }
-.file-container {
-  margin-top: 10px;
-}
+
 .input-container {
   display: flex;
   align-items: stretch;
@@ -107,18 +141,21 @@ body {
   margin-left: 20%;
   padding-left: 5%;
 }
+
 .buttons-container {
   display: flex;
-  justify-content: space-between;
-  //margin-top: 10px;
   padding-top: 20px;
+  justify-content: center; /* 使子元素水平居中 */
+  padding-bottom: 10px;
 }
+
 /* 使用相同的宽度设置 */
 .input-container, .buttons-container {
   width: 80%;
   max-width: 500px;
   margin: 0 auto;
 }
+
 .profile-icon {
   width: 50px;
   height: 50px;
@@ -151,6 +188,7 @@ body {
 .el-input {
   width: 100%;
 }
+
 .el-input__inner {
   padding: 10px 15px;
   border-radius: 15px;
@@ -158,13 +196,14 @@ body {
   background-color: transparent;
   color: white;
 }
+
 .el-textarea .el-textarea__inner {
   padding: 10px 15px;
   border-radius: 15px;
   border: 2px solid white;
   background-color: transparent;
   color: white;
-  resize: none;  /* 禁止用户调整大小 */
+  resize: none; /* 禁止用户调整大小 */
 }
 
 .input-container .el-form-item__content {

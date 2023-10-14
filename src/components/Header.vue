@@ -7,11 +7,25 @@
       <div style="margin-left: 10px; font-size: 20px">
         <span style="font-weight: bold; color: gold;">Make it simple</span>
       </div>
+
+
+      <div class="nav-links">
+        <span class="nav-link" @click="navigateTo('/selectHome')">Home</span>
+        <span class="nav-link" @click="navigateTo('/calendar')">Calendar</span>
+        <span class="nav-link" @click="navigateTo('/chatRoom?role=employer')">Communication</span>
+        <span class="nav-link" @click="navigateTo('/mytask')">Task Script</span>
+      </div>
+
+
     </div>
     <div class="right-content">
       <div class="user-profile">
-        <img :src="avatarUrl" alt="用户头像">
-<!--        <img src="../assets/img_2.png" alt="用户头像">-->
+        <el-image
+            :src="avatarUrl"
+            fit="cover"
+            style="width: 40px; height: 40px; cursor: pointer; border-radius: 50%;"
+        ></el-image>
+
       </div>
       <div class="user-info">
         <span style="font-weight: bold; color: gold;">{{ userName }}</span>
@@ -20,9 +34,8 @@
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="/selectHome">Home</el-dropdown-item>
             <el-dropdown-item command="/profile">My profile</el-dropdown-item>
-            <el-dropdown-item command="/myTask">My task</el-dropdown-item>
+            <el-dropdown-item command="logout">Log out</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -52,12 +65,24 @@ export default {
     this.fetchUserProfile();
   },
   methods: {
+    navigateTo(route) {
+      this.$router.push(route);
+    },
     handleCommand(command) {
       this.$router.push(command);
+      if (command === 'logout') {
+        // 这里执行登出的逻辑
+        // 1. Update the store state
+        store.commit('setIsLoggedIn', false);
+        store.commit('setToken', null);
+        // 2. Redirect to the login page
+        this.$router.push('/'); // Assuming the route path for your login page is '/login'
+
+      }
     },
     fetchUserProfile() {
       this.$axios.get(this.$httpurl + '/user/profile', {
-        params: { id: this.id }  // 根据需要动态传入用户ID
+        params: {id: this.id}  // 根据需要动态传入用户ID
       })
           .then(response => {
             if (response.data.code === 200) {
@@ -103,8 +128,7 @@ export default {
 }
 
 .user-profile img {
-  height: 40px;
-  border-radius: 50%;
+
 }
 
 .user-info {
@@ -118,11 +142,29 @@ export default {
   font-size: 20px;
   color: gold;
   cursor: pointer;
-  margin-left: 10px;
 }
 
 .el-dropdown-link {
   cursor: pointer;
   color: #409EFF;
 }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  margin-left: 40px;  /* Adjust spacing between logo and nav-links */
+}
+
+.nav-link {
+  margin: 0 15px;  /* Adjust spacing between each nav-link */
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: gold;  /* Change color on hover */
+}
+
 </style>

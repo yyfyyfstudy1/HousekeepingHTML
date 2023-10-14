@@ -1,10 +1,13 @@
 import Header from "../../Header.vue"
 import store from '../../../store';
+import loadingEffect from '../../LoadingEffect/statusLoading.vue'
+
 
 let socket;
 export default {
     components: {
         Header,
+        loadingEffect
     },
     mounted() {
         const id = this.$route.query.id;
@@ -13,11 +16,13 @@ export default {
 
         // 查询当前的任务状态
         this.getCurrentTaskPhase();
+        this.getLaborWorkDuration();
 
         this.user = store.getters.getUserInfo;
         this.userId = this.user.id;
         // 打开websocket接收后端推送的任务phase
         this.initWebsocket();
+
 
         // 从数据库查询到任务的
     },
@@ -35,6 +40,7 @@ export default {
             timer: null,
 
             taskPhase: 0,
+            laborWorkDuration: 0,
         };
     },
     watch: {
@@ -46,29 +52,42 @@ export default {
             }
         }
     },
-    computed: {
-        formattedTime() {
-            let seconds = this.time;
+
+    methods: {
+        formattedTime2(timeStamp) {
+            let seconds = Math.floor(timeStamp / 1000);
             const hours = Math.floor(seconds / 3600);
             seconds %= 3600;
             const minutes = Math.floor(seconds / 60);
             seconds %= 60;
 
-            return [
-                hours.toString().padStart(2, '0'),
-                minutes.toString().padStart(2, '0'),
-                seconds.toString().padStart(2, '0')
-            ].join(':');
-        }
-    },
+            if (hours > 0) {
+                return hours + (hours === 1 ? ' hour' : ' hours');
+            } else if (minutes > 0) {
+                return minutes + (minutes === 1 ? ' minute' : ' minutes');
+            } else {
+                return seconds + (seconds === 1 ? ' second' : ' seconds');
+            }
+        },
+            formattedTime(timeStamp) {
+                let seconds = timeStamp;
+                const hours = Math.floor(seconds / 3600);
+                seconds %= 3600;
+                const minutes = Math.floor(seconds / 60);
+                seconds %= 60;
 
-
-    methods: {
+                return [
+                    hours.toString().padStart(2, '0'),
+                    minutes.toString().padStart(2, '0'),
+                    seconds.toString().padStart(2, '0')
+                ].join(':');
+            },
             getPaypal() {
                 // 在此处发送请求到后端控制器
                 // 使用axios或其他HTTP库发送请求到Spring Boot后端
                 const requestBody={
-                    taskId: this.taskId
+                    taskId: this.taskId,
+                    taskDuration: this.laborWorkDuration
                 }
                 const token = store.getters.getToken;
                 this.$axios.post(this.$httpurl+'/paypal/pay',requestBody, {
@@ -123,6 +142,28 @@ export default {
                     }
                 });
         },
+
+        getLaborWorkDuration(){
+            const token = store.getters.getToken;
+            this.$axios.get(this.$httpurl + '/member/employer/getLaborWorkDuration', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                params: {
+                    taskId: this.taskId,
+                }
+            })
+                .then(res => res.data)
+                .then(res => {
+                    if (res.code === 200) {
+                        console.log(res.data)
+                        this.laborWorkDuration = res.data
+
+                    } else {
+                        alert("failed to get the data");
+                    }
+                });
+        },
         startTimer() {
             if (this.taskPhase !== 14){
                 if (this.timer) {
@@ -161,7 +202,7 @@ export default {
                         }
                         // 检查到状态为未确定订单  任务状态为2
                         if (this.active === 0) {
-                            this.dialogVisible = true;
+
                             // 发送请求获取tasker信息
                             this.getTaskerInfo()
 
@@ -190,6 +231,8 @@ export default {
                     if (res.code === 200) {
                         this.tasker = res.data;
 
+                        //  弹出taser信息
+                        this.dialogVisible = true;
                     } else {
                         alert("failed to get the data");
                     }
@@ -257,6 +300,17 @@ export default {
                         console.log("wdffffffffff")
                         // update the status bar phase is 3
                         this.active = parseFloat(JsonMessage.phase) - 2;
+
+                        if (parseFloat(JsonMessage.phase)==2){
+                            //如果状态为2的话，发送请求获取用户信息
+                            this.getTaskerInfo()
+
+                        }
+
+                        // 任务状态phase为6，任务已完成，发送请求获取工作时长
+                        if (parseFloat(JsonMessage.phase) ==5){
+                            this.getLaborWorkDuration()
+                        }
                     }
 
                     // handle error
