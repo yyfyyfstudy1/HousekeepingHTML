@@ -1,10 +1,13 @@
 import Header from "../../Header.vue"
 import store from '../../../store';
+import loadingEffect from '../../LoadingEffect/statusLoading.vue'
+
 
 let socket;
 export default {
     components: {
         Header,
+        loadingEffect
     },
     mounted() {
         const id = this.$route.query.id;
@@ -49,21 +52,7 @@ export default {
             }
         }
     },
-    // computed: {
-    //     formattedTime() {
-    //         let seconds = this.time;
-    //         const hours = Math.floor(seconds / 3600);
-    //         seconds %= 3600;
-    //         const minutes = Math.floor(seconds / 60);
-    //         seconds %= 60;
-    //
-    //         return [
-    //             hours.toString().padStart(2, '0'),
-    //             minutes.toString().padStart(2, '0'),
-    //             seconds.toString().padStart(2, '0')
-    //         ].join(':');
-    //     }
-    // },
+
     methods: {
         formattedTime2(timeStamp) {
             let seconds = Math.floor(timeStamp / 1000);
@@ -213,7 +202,7 @@ export default {
                         }
                         // 检查到状态为未确定订单  任务状态为2
                         if (this.active === 0) {
-                            this.dialogVisible = true;
+
                             // 发送请求获取tasker信息
                             this.getTaskerInfo()
 
@@ -242,6 +231,8 @@ export default {
                     if (res.code === 200) {
                         this.tasker = res.data;
 
+                        //  弹出taser信息
+                        this.dialogVisible = true;
                     } else {
                         alert("failed to get the data");
                     }
@@ -309,6 +300,12 @@ export default {
                         console.log("wdffffffffff")
                         // update the status bar phase is 3
                         this.active = parseFloat(JsonMessage.phase) - 2;
+
+                        if (parseFloat(JsonMessage.phase)==2){
+                            //如果状态为2的话，发送请求获取用户信息
+                            this.getTaskerInfo()
+
+                        }
 
                         // 任务状态phase为6，任务已完成，发送请求获取工作时长
                         if (parseFloat(JsonMessage.phase) ==5){

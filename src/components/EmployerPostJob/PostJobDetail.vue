@@ -85,10 +85,11 @@
 
 
             <!-- 添加标签的对话框 -->
-            <el-dialog title="Add New Tag" :visible.sync="dialogVisible" width="30%"  class="add-tag-dialog">
+            <el-dialog title="Add New Tag" :visible.sync="dialogVisible" width="30%" class="add-tag-dialog">
 
               <el-input v-model="newTag" placeholder="Enter new tag"></el-input>
-              <h5 style="margin-left: 10px; color: darkred; margin-top: 5px">If you add too many custom tags, the matching process may fail.</h5>
+              <h5 style="margin-left: 10px; color: darkred; margin-top: 5px">If you add too many custom tags, the
+                matching process may fail.</h5>
               <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">Cancel</el-button>
                 <el-button type="primary" @click="addTag">Confirm</el-button>
@@ -113,15 +114,32 @@
       <div class="loading-container">
         <h1 style="color: #eeeeee; margin-bottom: 30px">Post task successes !! system is matching the labor...</h1>
         <div class="loading-icon">
-          <img src="../../assets/Gear-0.2s-200px.gif" alt="Loading...">
+
+          <div class="loadingio-spinner-bean-eater-k18hctp89re">
+            <div class="ldio-9sb7vxzmnl8">
+              <div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <el-button type="success" @click="dumpToTimeTable" style="margin-top: 20px; width: 200px">Go to your timetable</el-button>
+
       </div>
     </div>
   </div>
 </template>
 
 <script src="./PostJobDetail.js"></script>
-
+<style src="../../../public/test.css"></style>
 <style>
 /* 在这里添加需要的样式 */
 

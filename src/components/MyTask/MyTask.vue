@@ -20,7 +20,7 @@
         </div>
         <el-table
             ref="filterTable"
-            :cell-style="{background:'#0D1E48',padding: '0',textAlign: 'center', color:'#ffffff', fontSize:'20px'}"
+            :cell-style="{background:'#0D1E48',padding: '0',textAlign: 'center', color:'#ffffff', fontSize:'20px', height:'100px'}"
             :header-cell-style="{background:'#0D1E48', color: '#ffffff', fontSize:'25px',textAlign: 'center', fontweight:700}"
             :data="tableData"
             :row-class-name="getRowClassName"
@@ -118,7 +118,7 @@
 
 .el-aside {
   height: 100%; /* 设置高度为100%以覆盖整个页面 */
-  background-color: #0D1E48
+  background-color: #182657
 }
 
 .el-button {
@@ -162,39 +162,16 @@
 }
 
 .custom-aside::-webkit-scrollbar {
-  width: 3px; /* 设置滚动条宽度为1px */
-  height: 3px; /* 对于横向滚动条，设置高度 */
+  display: none; /* 对于Chrome, Safari和新的Edge */
 }
 
-.custom-aside::-webkit-scrollbar-track {
-  background: transparent; /* 设置滚动条轨道为透明 */
-}
-
-.custom-aside::-webkit-scrollbar-thumb {
-  background: #888; /* 设置滚动条滑块的颜色 */
-}
-
-.custom-aside::-webkit-scrollbar-thumb:hover {
-  background: #555; /* 设置鼠标悬停时滑块的颜色 */
+.custom-aside {
+  -ms-overflow-style: none; /* 对于IE和Edge */
+  scrollbar-width: none; /* 对于Firefox */
 }
 
 
-.board::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
-}
 
-.board::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.board::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-.board::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
 
 
 </style>

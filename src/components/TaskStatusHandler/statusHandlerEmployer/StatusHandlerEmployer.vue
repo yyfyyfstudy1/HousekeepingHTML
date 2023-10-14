@@ -12,35 +12,64 @@
       <transition name="fade" mode="out-in">
         <div :key="active">
 
-          <el-dialog :visible.sync="dialogVisible"
-                     title="Your task has been take !"
-                     :close-on-click-modal="false"
-                     :show-close="false"
-                     :close-on-press-escape="false">
 
+          <div v-if="active === -1"
+               style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://img.freepik.com/premium-photo/colored-dust-scattered-white-background-generative-ai_38679-2521.jpg?w=900'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+            <div style="text-align: center; margin-top: 40px; padding: 50px">
+              <h1 style="color: antiquewhite; background-color: rgba(0, 0, 0, 0.7); padding: 10px; width: 450px; margin-left: 200px">
+                System is finding the tasker</h1>
 
-            <div class="center-and-bold">
-              <img :src="tasker.avatarUrl" alt="Tasker Avatar" width="100"/>
-              <p>Name: {{ tasker.name }}</p>
-              <p>Age: {{ tasker.age }}</p>
-              <p>Phone: {{ tasker.phone }}</p>
-              <p>About: {{ tasker.introduction }}</p>
-              <div v-if="active === 0">
-                <el-button v-if="!isConfirmed" @click="changeStatus(1)" class="statusConfirmBtn">Waiting for you to
-                  confirm the order
-                </el-button>
+              <div class="loadingio-spinner-pulse-u2ws171fbq">
+                <div class="ldio-594040psadx">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
               </div>
             </div>
+          </div>
 
-          </el-dialog>
+
+          <div v-if="active === 0">
+            <el-dialog :visible.sync="dialogVisible"
+                       title="Your task has been take !"
+                       :close-on-click-modal="false"
+                       :show-close="false"
+                       :close-on-press-escape="false">
+
+
+              <div class="center-and-bold">
+                <img :src="tasker.avatarUrl" alt="Tasker Avatar" width="100"/>
+                <p>Name: {{ tasker.name }}</p>
+                <p>Age: {{ tasker.age }}</p>
+                <p>Phone: {{ tasker.phone }}</p>
+                <p>About: {{ tasker.introduction }}</p>
+                <div v-if="active === 0">
+                  <el-button v-if="!isConfirmed" @click="changeStatus(1)" class="statusConfirmBtn">Waiting for you to
+                    confirm the order
+                  </el-button>
+                </div>
+              </div>
+
+            </el-dialog>
+          </div>
 
 
           <div v-if="active === 1">
-            <div class="task-center">
-              <img src="../../../assets/woman-6318447_1280.jpg" width="60%">
-              <h2>Your task will begin, The tasker is going to your place !</h2>
+            <div class="task-center1">
+              <div class="iframe-container">
+                <iframe src="https://giphy.com/embed/3oriOh6akxc2f5tyTu" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+              </div>
+              <div class="info-box">
+                <h2><i class="el-icon-time"></i> Your task will begin soon!</h2>
+                <p style="margin-top: 10px; margin-bottom: 10px">The tasker is on the way to your place. Please ensure your phone is online for communication.</p>
+                <div class="loading-bar">
+                  <div class="loading-fill"></div>
+                </div>
+              </div>
             </div>
           </div>
+
 
           <div v-if="active === 2">
             <div class="task-center">
@@ -59,8 +88,6 @@
           <div v-if="active === 3">
 
 
-
-
             <div class="payment-container">
 
               <!-- 左侧图片区 -->
@@ -70,8 +97,11 @@
 
               <!-- 右侧支付信息区 -->
               <div class="info-container">
-                <h2 style="color: #eeeeee; margin-bottom: 40px">Tasker has finished the task, below is the payment information</h2>
-                <h3 style="color: #ff00c2; margin-bottom: 30px"> Task duration:  {{ formattedTime2(laborWorkDuration) }}</h3>
+                <h2 style="color: #eeeeee; margin-bottom: 40px">Tasker has finished the task, below is the payment
+                  information</h2>
+                <h3 style="color: #ff00c2; margin-bottom: 30px"> Task duration: {{
+                    formattedTime2(laborWorkDuration)
+                  }}</h3>
 
                 <!-- 支付图标容器 -->
                 <div class="payment-icons">
@@ -91,17 +121,11 @@
 
 
                 <!-- 这里可以添加其他支付信息和元素，如文本、按钮等 -->
-                <p style="margin-top: 30px; color: #ffda00; text-decoration: underline;">IF YOU HAVE ANY ISSUE, PLEASE CONTACT US</p>
+                <p style="margin-top: 30px; color: #ffda00; text-decoration: underline;">IF YOU HAVE ANY ISSUE, PLEASE
+                  CONTACT US</p>
               </div>
 
             </div>
-
-
-
-
-
-
-
 
 
           </div>
@@ -126,6 +150,7 @@
 export default {};
 </script>
 
+<style src="../../../../public/test2.css"></style>
 <style>
 
 .custom-steps .el-step__title.is-finish {
@@ -169,6 +194,18 @@ export default {};
   align-items: center;
 }
 
+.task-center1 {
+  color: #eeeeee;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: radial-gradient(circle at center, black 0%, black 370px, #0D1E48 450px, #0D1E48 100%);
+  padding-bottom: 30px;
+  padding-top: 40px;
+  border-radius: 30px;
+}
+
 .task-horizontal-align {
   display: flex;
   align-items: center;
@@ -192,6 +229,7 @@ export default {};
 .part3 {
   color: #ff00c2;
 }
+
 .fade-enter-active, .fade-leave-active {
   transition: opacity 1s;
 }
@@ -211,7 +249,7 @@ export default {};
 }
 
 .image-container {
-  flex: 1;  /* 意味着左边图片和右边支付信息的宽度将平分容器 */
+  flex: 1; /* 意味着左边图片和右边支付信息的宽度将平分容器 */
   padding-right: 20px;
 }
 
@@ -225,7 +263,7 @@ export default {};
   padding-left: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: center;  /* 使支付信息在垂直方向上居中 */
+  justify-content: center; /* 使支付信息在垂直方向上居中 */
 }
 
 .payment-icons {
@@ -244,4 +282,67 @@ export default {};
 }
 
 
+.task-center {
+  text-align: center;
+  padding: 20px;
+}
+
+.fadeIn {
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.info-box {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.loading-bar {
+  width: 100%;
+  height: 20px;
+  border: 1px solid #ccc;
+  position: relative;
+  overflow: hidden;
+}
+
+.loading-fill {
+  height: 100%;
+  width: 0; /* 初始状态的宽度 */
+  background-color: green; /* 初始状态的颜色 */
+  position: absolute;
+  animation: fillLoadingBar 5s infinite; /* 5s为动画时长，可以根据需求调整 */
+}
+
+@keyframes fillLoadingBar {
+  0% {
+    width: 0%;
+    background-color: green;
+  }
+  100% {
+    width: 100%;
+    background-color: red;
+  }
+}
+
+.iframe-container {
+  width: 480px;
+  height: 310px;  /* iframe原始高度的一半 */
+  overflow: hidden;
+  position: relative;
+}
+
+.giphy-embed {
+  position: absolute;
+  top: 0;  /* 使iframe定位在容器的顶部 */
+}
 </style>

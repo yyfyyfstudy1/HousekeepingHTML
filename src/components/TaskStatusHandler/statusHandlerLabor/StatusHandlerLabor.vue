@@ -15,7 +15,8 @@
 
           <div v-if="active === 0">
             <h1 style="color: #f7f7f7; text-align: center; margin-top: 40px">
-              <span style="color: #ffda00"> Waiting for </span> <span style="color: #ffda00">the employer</span> <span  style="color: #ffda00">confirm...</span>
+              <span style="color: #ffda00"> Waiting for </span> <span style="color: #ffda00">the employer</span> <span
+                style="color: #ffda00">confirm...</span>
             </h1>
             <div class="loadingio-spinner-ripple-ft0fvxndxpi" style="margin-left: 40%; margin-top: 30px">
               <div class="ldio-ni5ktxfpg9">
@@ -27,8 +28,10 @@
             <!-- 下面是带有下划线的提示部分 -->
             <div style="text-align: center; margin-top: 20px;">
               <p style="text-decoration: underline; color:lightgoldenrodyellow">Tip 1: Please be patient.</p>
-              <p style="text-decoration: underline; color: #ff00c2; margin-top: 10px">Tip 2: Ensure your internet connection is stable.</p>
-              <p style="text-decoration: underline;  color: #41FF33;  margin-top: 10px">Tip 3: If waiting too long, consider contacting the employer directly.</p>
+              <p style="text-decoration: underline; color: #ff00c2; margin-top: 10px">Tip 2: Ensure your internet
+                connection is stable.</p>
+              <p style="text-decoration: underline;  color: #41FF33;  margin-top: 10px">Tip 3: If waiting too long,
+                consider contacting the employer directly.</p>
             </div>
 
           </div>

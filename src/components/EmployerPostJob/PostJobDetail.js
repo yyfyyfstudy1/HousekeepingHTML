@@ -160,6 +160,9 @@ export default {
                 }
             }
         },
+        dumpToTimeTable(){
+            this.$router.push("/calendar")
+        },
         chooseFile() {
             // 手动触发文件选择输入框
             console.log('选择文件按钮被点击');
