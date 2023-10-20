@@ -41,6 +41,7 @@ export default {
 
             taskPhase: 0,
             laborWorkDuration: 0,
+            isLoading:false
         };
     },
     watch: {
@@ -83,6 +84,10 @@ export default {
                 ].join(':');
             },
             getPaypal() {
+
+                // 开启等待的图标
+                this.isLoading = true;
+
                 // 在此处发送请求到后端控制器
                 // 使用axios或其他HTTP库发送请求到Spring Boot后端
                 const requestBody={

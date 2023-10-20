@@ -58,11 +58,13 @@
           <div v-if="active === 1">
             <div class="task-center1">
               <div class="iframe-container">
-                <iframe src="https://giphy.com/embed/3oriOh6akxc2f5tyTu" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+                <iframe src="https://giphy.com/embed/3oriOh6akxc2f5tyTu" width="480" height="480" frameBorder="0"
+                        class="giphy-embed" allowFullScreen></iframe>
               </div>
               <div class="info-box">
                 <h2><i class="el-icon-time"></i> Your task will begin soon!</h2>
-                <p style="margin-top: 10px; margin-bottom: 10px">The tasker is on the way to your place. Please ensure your phone is online for communication.</p>
+                <p style="margin-top: 10px; margin-bottom: 10px">The tasker is on the way to your place. Please ensure
+                  your phone is online for communication.</p>
                 <div class="loading-bar">
                   <div class="loading-fill"></div>
                 </div>
@@ -141,6 +143,31 @@
           </div>
         </div>
       </transition>
+
+      <div v-if="isLoading" class="loading-overlay">
+        <div class="loading-container">
+          <h1 style="color: #eeeeee; margin-bottom: 30px">Waiting for paypal server response...</h1>
+          <div class="loading-icon">
+
+            <div class="loadingio-spinner-bean-eater-k18hctp89re">
+              <div class="ldio-9sb7vxzmnl8">
+                <div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+                <div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -336,13 +363,13 @@ export default {};
 
 .iframe-container {
   width: 480px;
-  height: 310px;  /* iframe原始高度的一半 */
+  height: 310px; /* iframe原始高度的一半 */
   overflow: hidden;
   position: relative;
 }
 
 .giphy-embed {
   position: absolute;
-  top: 0;  /* 使iframe定位在容器的顶部 */
+  top: 0; /* 使iframe定位在容器的顶部 */
 }
 </style>
