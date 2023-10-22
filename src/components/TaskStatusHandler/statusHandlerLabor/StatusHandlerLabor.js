@@ -90,6 +90,12 @@ export default {
                 this.timer = null;
             }
         },
+        closeWebsocket() {
+            if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+                this.socket.close();
+                console.log("WebSocket closed due to user leaving the page.");
+            }
+        },
 
         showConfirmDialog(action) {
             this.currentAction = action;
@@ -318,10 +324,20 @@ export default {
                     console.log("Typeof received taskId:", typeof JsonMessage.taskId);
                     console.log("Typeof this.taskId:", typeof this.taskId);
 
+                    // 通知服务端消息已经接收到了
+                    let message = {notificationId: JsonMessage.notificationId, isRead: 1}
+
+                    if (socket.readyState === WebSocket.OPEN) {
+                        socket.send(JSON.stringify(message));
+                    } else {
+                        console.log("WebSocket is not open:", socket.readyState);
+                    }
+
                     if (JsonMessage.status === "ok" && JsonMessage.taskId == this.taskId) {
                         console.log("wdffffffffff")
                         // update the status bar phase is 3
                         this.active = parseFloat(JsonMessage.phase) - 2;
+
 
                     }
                 };
@@ -379,7 +395,9 @@ export default {
                     console.error("Error fetching profile:", error.response ? error.response.data : error.message);
                 });
         },
+
         beforeDestroy() {
+            this.closeWebsocket();
             if (this.timer) {
                 clearInterval(this.timer);
             }

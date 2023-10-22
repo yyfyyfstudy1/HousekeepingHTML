@@ -1,5 +1,6 @@
 <template>
   <header class="app-header" style="background-color: #0D1E48;">
+    <audio id="notificationSound" src="../assets/y1871.mp3" preload="auto"></audio>
     <div class="left-content">
       <div class="logo">
         <img src="../assets/img.png" alt="网站Logo">
@@ -17,6 +18,10 @@
       </div>
 
 
+      <div class="notification-wrapper">
+        <img src="../assets/notification.png" width="40px" height="40px" @click="gotoMessages">
+        <div class="message-count">{{ messageCount }}</div>
+      </div>
     </div>
     <div class="right-content">
       <div class="user-profile">
@@ -43,65 +48,32 @@
   </header>
 </template>
 
-<script>
-import store from "@/store";
+<script src="./Header.js">
 
-export default {
-  data() {
-    return {
-      userName: 'YYF', // 替换为实际用户姓名
-      avatarUrl: require('@/assets/img_2.png'),
-    };
-  },
-  computed: {
-    id() {
-      // Get the user from the store and return its id
-      const user = store.getters.getUserInfo;
-      return user.id;
-    }
-  },
-  mounted() {
-    // Automatically fetch the profile once the component is mounted
-    this.fetchUserProfile();
-  },
-  methods: {
-    navigateTo(route) {
-      this.$router.push(route);
-    },
-    handleCommand(command) {
-      this.$router.push(command);
-      if (command === 'logout') {
-        // 这里执行登出的逻辑
-        // 1. Update the store state
-        store.commit('setIsLoggedIn', false);
-        store.commit('setToken', null);
-        // 2. Redirect to the login page
-        this.$router.push('/'); // Assuming the route path for your login page is '/login'
-
-      }
-    },
-    fetchUserProfile() {
-      this.$axios.get(this.$httpurl + '/user/profile', {
-        params: {id: this.id}  // 根据需要动态传入用户ID
-      })
-          .then(response => {
-            if (response.data.code === 200) {
-              const userData = response.data.data;
-              this.userName = userData.name;
-              this.avatarUrl = userData.avatarUrl;
-            } else {
-              console.error("Error fetching profile:", response.data.msg);
-            }
-          })
-          .catch(error => {
-            console.error("Error fetching profile:", error.response ? error.response.data : error.message);
-          });
-    },
-  },
-};
 </script>
 
 <style>
+
+.notification-wrapper {
+  position: relative;
+  display: inline-block; /* 使得封装器的大小适应图片大小 */
+  width: 40px;
+  height: 40px;
+  margin-left: 500px;
+}
+
+.message-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: red; /* 使用红色背景表示通知 */
+  color: white; /* 文字颜色为白色 */
+  border-radius: 50%; /* 圆形表示 */
+  padding: 2px 5px; /* 调整内边距以适应内容 */
+  font-size: 12px; /* 调整字体大小 */
+  min-width: 20px; /* 确保有足够的空间显示数字 */
+  text-align: center; /* 文本居中 */
+}
 .app-header {
   display: flex;
   justify-content: space-between;
@@ -119,7 +91,6 @@ export default {
 
 .logo img {
   height: 50px;
-  padding-top: 30px;
 }
 
 .right-content {

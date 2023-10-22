@@ -1,9 +1,5 @@
 import { mapActions } from 'vuex';
-import VueRecaptcha from 'vue-recaptcha';
 export default {
-    components: {
-        VueRecaptcha
-    },
     data() {
         return {
             loginForm: {
@@ -12,7 +8,6 @@ export default {
             },
             loginRole:[],
             userInfo:{},
-            sitekey: "6LcC8YIoAAAAAEFixedQ23yMdOI1BOn94aYPzezY"
         };
     },
     methods: {
@@ -41,17 +36,8 @@ export default {
         submit: function(token) {
             console.log(token);
         },
-        loaded() {
-            setTimeout(() => {
-                window.grecaptcha.render("grecaptcha", {
-                    sitekey: this.sitekey,
-                    callback: this.submit
-                });
-            }, 200);
-        }
     },
     mounted() {
-        this.loaded();
     }
 
 };

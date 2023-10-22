@@ -41,6 +41,7 @@ export default {
 
             taskPhase: 0,
             laborWorkDuration: 0,
+            isLoading:false
         };
     },
     watch: {
@@ -54,6 +55,12 @@ export default {
     },
 
     methods: {
+        closeWebsocket() {
+            if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+                this.socket.close();
+                console.log("WebSocket closed due to user leaving the page.");
+            }
+        },
         formattedTime2(timeStamp) {
             let seconds = Math.floor(timeStamp / 1000);
             const hours = Math.floor(seconds / 3600);
@@ -83,6 +90,10 @@ export default {
                 ].join(':');
             },
             getPaypal() {
+
+                // 开启等待的图标
+                this.isLoading = true;
+
                 // 在此处发送请求到后端控制器
                 // 使用axios或其他HTTP库发送请求到Spring Boot后端
                 const requestBody={
@@ -296,7 +307,19 @@ export default {
                     console.log("Typeof received taskId:", typeof JsonMessage.taskId);
                     console.log("Typeof this.taskId:", typeof this.taskId);
 
+                    // 通知服务端消息已经接收到了
+                    let message = {notificationId: JsonMessage.notificationId, isRead: 1}
+
+                    if (socket.readyState === WebSocket.OPEN) {
+                        socket.send(JSON.stringify(message));
+                        console.log("发送确认心跳");
+                    } else {
+                        console.log("WebSocket is not open:", socket.readyState);
+                    }
+
                     if (JsonMessage.status === "ok" && JsonMessage.taskId == this.taskId) {
+
+
                         console.log("wdffffffffff")
                         // update the status bar phase is 3
                         this.active = parseFloat(JsonMessage.phase) - 2;
@@ -344,6 +367,7 @@ export default {
         },
 
         beforeDestroy() {
+            this.closeWebsocket();
             if (this.timer) {
                 clearInterval(this.timer);
             }

@@ -19,16 +19,13 @@
         clickMode="push"
     >
     </vue-particles>
-    <img src="@/assets/logo.png" alt="Logo" class="logo">
+    <img src="../../assets/img.png" alt="Logo" class="logo">
     <el-form class="login-form" ref="loginForm" :model="loginForm" label-width="80px">
       <el-form-item label="Email">
         <el-input v-model="loginForm.email" placeholder="enter email"></el-input>
       </el-form-item>
       <el-form-item label="password">
         <el-input type="password" v-model="loginForm.password" placeholder="enter password"></el-input>
-      </el-form-item>
-      <el-form-item label="security">
-        <div id="grecaptcha"></div>
       </el-form-item>
 
 
@@ -62,9 +59,10 @@
 }
 
 .logo {
-  width: 160px;
-  height: 160px;
-  margin-bottom: 20px;
+  width: 200px;
+  max-width: 100%; /* 确保图片不会超出容器的宽度 */
+  height: auto; /* 让高度自适应 */
+  margin-bottom: 10px;
 }
 
 .login-form {

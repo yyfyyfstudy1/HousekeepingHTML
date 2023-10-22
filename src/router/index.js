@@ -15,6 +15,8 @@ import store from '../store'; // 导入Vuex store
 import myTask from "../components/MyTask/MyTask.vue";
 import myTakenTask from "../components/MyTask/MyTakenTask.vue";
 import Calendar from "../components/Calendar/Calendar.vue";
+import Verification from "../components/Register/Verification.vue"
+import Notification from "../components/Notification/Notification.vue";
 
 import PaymentSuccessful from "../components/PaymentStatus/PaymentSuccessful.vue";
 
@@ -124,6 +126,16 @@ const router = new VueRouter({
             component: PaymentSuccessful,
             meta: { requiresAuth: true, allowedRoles: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN'] }
         },
+        {
+            path: '/verification',
+            name: 'Verification',
+            component: Verification,
+        },
+        {
+            path: '/notification',
+            name: 'Notification',
+            component: Notification,
+        }
     ]
 })
 

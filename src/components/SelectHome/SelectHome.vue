@@ -1,6 +1,7 @@
 <template>
   <div style="height: 100vh">
     <Header></Header>
+    <audio id="notificationSound" src="../../assets/y1871.mp3" preload="auto"></audio>
     <div class="home-page" style="background-color: #0D1E48;">
       <el-card class="card" shadow="hover">
         <img src="../../assets/findWorker.png" alt="Logo 1">
@@ -26,13 +27,31 @@ import Header from "../Header.vue"
 
 export default {
   components: {Header},
+  mounted() {
+    this.askForSoundPermission();
+  },
   methods: {
     navigateToPage1() {
       this.$router.push("/EmployerPostJob");
     },
     navigateToFindJob() {
       this.$router.push("/findJob");
-    }
+    },
+    askForSoundPermission() {
+      this.$confirm('Do you want to turn on notification sounds?', 'Notification sounds', {
+        confirmButtonText: 'Yes, turn on',
+        cancelButtonText: 'No, thanks',
+        type: 'info'
+      }).then(() => {
+        this.soundEnabled = true; // 这是一个假设您已经在 data 中定义的属性
+
+        // 可以在此处播放一个音频文件来“解锁”浏览器的自动播放限制
+        let sound = document.getElementById('notificationSound');
+        sound.play();
+      }).catch(() => {
+        // 用户选择了“不，谢谢”
+      });
+    },
   }
   // 组件逻辑
 }
