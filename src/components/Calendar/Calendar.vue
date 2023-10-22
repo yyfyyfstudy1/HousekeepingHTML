@@ -17,7 +17,11 @@
       <div class="taskInfo" v-if="formattedSelectedDate">
         <div class="dateInfo">{{ formattedSelectedDate }}</div>
 
-        <div class="task" v-for="task in employerTask" :key="task.taskId">
+        <div class="task"
+             v-for="task in employerTask"
+             :key="task.taskId"
+             @click="navigateToTaskStatusHandler(1, task.taskId)"
+        >
           <i class="el-icon-s-claim" style="color: green"></i>
           <div style="margin-left: 10px">
             {{ task.taskDescribe }}
@@ -32,7 +36,10 @@
           </div>
         </div>
 
-        <div class="task" v-for="task in taskerTask" :key="task.taskId">
+        <div class="task"
+             v-for="task in taskerTask"
+             :key="task.taskId"
+             @click="navigateToTaskStatusHandler(2, task.taskId)">
           <i class="el-icon-s-claim" style="color: darkred"></i>
           <div style="margin-left: 10px">
             {{ task.taskDescribe }}
@@ -48,7 +55,8 @@
       </div>
     </div>
 
-    <el-dialog :visible.sync="editDialogVisible" title="Edit Task" width="50%" :before-close="handleEditDialogClose" class="use-dialog">
+    <el-dialog :visible.sync="editDialogVisible" title="Edit Task" width="50%" :before-close="handleEditDialogClose"
+               class="use-dialog">
       <el-form :model="editingTask">
         <el-form-item label="Task Begin Time">
           <el-date-picker v-model="editingTask.taskBeginTime" type="datetime"
@@ -58,7 +66,8 @@
           <el-input v-model="editingTask.taskLocation" style="width: 300px; height: 40px"></el-input>
         </el-form-item>
         <el-form-item label="Task Describe">
-          <textarea v-model="editingTask.taskDescribe" placeholder="Enter task description" style="height: 100px; width: 90%; padding: 10px"> </textarea>
+          <textarea v-model="editingTask.taskDescribe" placeholder="Enter task description"
+                    style="height: 100px; width: 90%; padding: 10px"> </textarea>
         </el-form-item>
         <el-form-item label="Task Title">
           <el-input v-model="editingTask.taskTitle" placeholder="Enter task title"></el-input>
@@ -81,6 +90,7 @@
 .use-dialog .el-input__inner {
   color: black;
 }
+
 .taskInfo {
   font-size: 30px;
   color: white;

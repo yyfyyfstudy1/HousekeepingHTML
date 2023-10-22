@@ -56,6 +56,12 @@
               label="begin time"
               sortable
               width="250">
+
+            <template slot-scope="scope">
+              {{ scope.row.taskBeginTime | timestampToHumanReadable }}
+            </template>
+
+
           </el-table-column>
           <el-table-column
               prop="taskEstimatedDuration"

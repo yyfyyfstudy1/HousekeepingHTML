@@ -12,6 +12,7 @@ const store = new Vuex.Store({
         Role: [],
         userInfo:{},
         taskData: [], // 存储任务数据的数组
+        soundAccepted: false,  // 初始状态为false，代表用户尚未接受声音播放
         // 为admin和superAdmin的Aside分别赋值
         adminSidebarLinks: [
             { index: '/Home', icon: 'el-icon-s-home', title: 'Main' },
@@ -41,7 +42,10 @@ const store = new Vuex.Store({
         },
         setTaskData(state, data) {
             state.taskData = data;
-        }
+        },
+        setSoundAccepted(state, value) {
+            state.soundAccepted = value;
+        },
     },
     actions: {
         login({ commit }, { token, role, userInfo}) { // 使用对象参数
@@ -59,7 +63,10 @@ const store = new Vuex.Store({
         },
         setTaskData({commit}, {taskData}){
             commit('setTaskData', taskData)
-        }
+        },
+        acceptSound({ commit }) {
+            commit('setSoundAccepted', true);
+        },
 
     },
     getters: {
@@ -70,7 +77,8 @@ const store = new Vuex.Store({
         sidebarLinks(state) {
             return state.Role.includes('SUPERADMIN') ? state.superAdminSidebarLinks : state.adminSidebarLinks;
         },
-        getTaskData: state => state.taskData
+        getTaskData: state => state.taskData,
+        isSoundAccepted: state => state.soundAccepted,
     },
 });
 

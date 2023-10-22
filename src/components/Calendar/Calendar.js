@@ -85,6 +85,14 @@ export default {
 
     },
     methods: {
+        navigateToTaskStatusHandler(type, taskId) {
+            if (type === 1){
+                this.$router.push(`/taskStatusHandler/employer?id=${taskId}`);
+            }else {
+                this.$router.push(`/taskStatusHandler/labor?id=${taskId}`);
+            }
+
+        },
         editTask(taskId) {
             // 使用filter方法从数组中找到特定taskId的任务
             const task = this.employerTask.find(t => t.taskId === taskId);
