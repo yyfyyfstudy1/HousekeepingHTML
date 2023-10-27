@@ -20,10 +20,9 @@
         <div class="task"
              v-for="task in employerTask"
              :key="task.taskId"
-             @click="navigateToTaskStatusHandler(1, task.taskId)"
         >
           <i class="el-icon-s-claim" style="color: green"></i>
-          <div style="margin-left: 10px">
+          <div style="margin-left: 10px"  @click="navigateToTaskStatusHandler(1, task.taskId)">
             {{ task.taskDescribe }}
           </div>
           <div class="button-container">
@@ -38,10 +37,9 @@
 
         <div class="task"
              v-for="task in taskerTask"
-             :key="task.taskId"
-             @click="navigateToTaskStatusHandler(2, task.taskId)">
+             :key="task.taskId">
           <i class="el-icon-s-claim" style="color: darkred"></i>
-          <div style="margin-left: 10px">
+          <div style="margin-left: 10px"  @click="navigateToTaskStatusHandler(2, task.taskId)">
             {{ task.taskDescribe }}
           </div>
           <div class="btn-container2">

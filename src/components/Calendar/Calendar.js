@@ -1,11 +1,10 @@
 import store from '../../store'; // 导入Vuex store
 import Header from "../Header.vue"
 import { MessageBox } from 'element-ui';
-
 export default {
     name: "Calendar",
     components: {
-        Header
+        Header,
     },
     data() {
         return {
