@@ -98,8 +98,8 @@ export default {
                 .then(res => res.data)
                 .then(data => {
                     // 根据新的返回格式进行检查
-                    if (data.code === 200 && data.data.code === 200) {
-                        alert("Profile updated successfully!");
+                    if (data.code === 200) {
+                        this.$message.success("modify user information successful")
                         this.fetchUserProfile();  // 重新获取最新的用户信息
                         this.$refs.headerComponent.fetchUserProfile(); // 获取Header组件的用户信息
                     } else {

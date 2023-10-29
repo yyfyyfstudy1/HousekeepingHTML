@@ -18,11 +18,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 Vue.use(VueLoading);
 
 Vue.prototype.$axios = axios;
-Vue.prototype.$httpurl = ' http://localhost:8082'
-Vue.prototype.$websocketurl = 'ws://localhost:8082'
+// Vue.prototype.$httpurl = ' http://localhost:8082'
+// Vue.prototype.$websocketurl = 'ws://localhost:8082'
 
-// Vue.prototype.$httpurl = 'http://172.20.10.5:8082'
-// Vue.prototype.$websocketurl = 'ws://172.20.10.5:8082'
+Vue.prototype.$httpurl = 'http://172.20.10.5:8082'
+Vue.prototype.$websocketurl = 'ws://172.20.10.5:8082'
 Vue.config.productionTip = false;
 Vue.use(VueParticles);
 Vue.use(ElementUI);
@@ -36,6 +36,19 @@ Vue.use(VueGoogleMaps, {
     libraries: "places"
   }
 });
+
+Vue.filter('timestampToHumanReadable', function(value) {
+  const date = new Date(value);
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  const seconds = date.getSeconds().toString().padStart(2, '0');
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+});
+
 new Vue({
   render: h => h(App),
   //注册

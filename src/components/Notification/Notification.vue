@@ -6,7 +6,13 @@
                 :cell-style="{background:'#0D1E48',padding: '0',textAlign: 'center', color:'#ffffff', fontSize:'18px', height:'100px'}"
                 :header-cell-style="{background:'#0D1E48', color: '#ffffff', fontSize:'18px',textAlign: 'center', fontweight:500}"
                 class="dark-table">
-        <el-table-column prop="sendTime" label="Send Time" width="180"></el-table-column>
+        <el-table-column prop="sendTime" label="Send Time" width="180">
+
+          <template slot-scope="scope">
+            {{ scope.row.sendTime | timestampToHumanReadable }}
+          </template>
+
+        </el-table-column>
         <el-table-column prop="sendTime" label="System message" width="180">
           <img src="../../assets/robot.png" class="avatar">
         </el-table-column>

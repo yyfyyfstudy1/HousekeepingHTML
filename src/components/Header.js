@@ -5,7 +5,8 @@ export default {
         return {
             userName: 'YYF', // 替换为实际用户姓名
             avatarUrl: require('@/assets/img_2.png'),
-            messageCount: 10 // 示例数据
+            messageCount: 10, // 示例数据
+            isShaking: false
         };
     },
     computed: {
@@ -22,6 +23,12 @@ export default {
         this.getNotificationCount();
     },
     methods: {
+        onReceiveMessage() {
+            this.isShaking = true;
+            setTimeout(() => {
+                this.isShaking = false;
+            }, 3000);
+        },
         gotoMessages() {
             // 使用 Vue Router 的编程式导航功能跳转到消息页面
             this.$router.push('/notification');
@@ -112,6 +119,7 @@ export default {
 
                     // 收到消息就调用查询已读消息的方法
                     console.log("header的消息提示出现了")
+                    this.onReceiveMessage();
                     this.getNotificationCount()
                     let sound = document.getElementById('notificationSound');
                     sound.play();

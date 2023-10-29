@@ -17,13 +17,12 @@
         <span class="nav-link" @click="navigateTo('/mytask')">Task Script</span>
       </div>
 
-
-      <div class="notification-wrapper">
-        <img src="../assets/notification.png" width="40px" height="40px" @click="gotoMessages">
-        <div class="message-count">{{ messageCount }}</div>
-      </div>
     </div>
     <div class="right-content">
+      <div class="notification-wrapper">
+        <img :class="{ 'shake-animation': isShaking }" src="../assets/notification.png" width="40px" height="40px" @click="gotoMessages">
+        <div class="message-count">{{ messageCount }}</div>
+      </div>
       <div class="user-profile">
         <el-image
             :src="avatarUrl"
@@ -59,7 +58,7 @@
   display: inline-block; /* 使得封装器的大小适应图片大小 */
   width: 40px;
   height: 40px;
-  margin-left: 500px;
+  margin-right: 30px;
 }
 
 .message-count {
@@ -136,6 +135,18 @@
 
 .nav-link:hover {
   color: gold;  /* Change color on hover */
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.shake-animation {
+  animation: shake 0.5s ease-in-out 0s 3;
 }
 
 </style>

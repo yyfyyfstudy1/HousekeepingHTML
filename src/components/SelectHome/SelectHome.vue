@@ -6,7 +6,7 @@
       <el-card class="card" shadow="hover">
         <img src="../../assets/findWorker.png" alt="Logo 1">
         <div class="card-text">
-          <h3>I am employee</h3>
+          <h3>I am employer</h3>
           <el-button type="primary" @click="navigateToPage1">post your task</el-button>
         </div>
       </el-card>
@@ -24,7 +24,7 @@
 
 <script>
 import Header from "../Header.vue"
-
+import store from '../../store'; // 导入Vuex store
 export default {
   components: {Header},
   mounted() {
@@ -37,14 +37,19 @@ export default {
     navigateToFindJob() {
       this.$router.push("/findJob");
     },
+    checkAndAskForSoundPermission() {
+      if (!store.getters.isSoundAccepted) {
+        this.askForSoundPermission();
+      }
+    },
     askForSoundPermission() {
       this.$confirm('Do you want to turn on notification sounds?', 'Notification sounds', {
         confirmButtonText: 'Yes, turn on',
         cancelButtonText: 'No, thanks',
         type: 'info'
       }).then(() => {
-        this.soundEnabled = true; // 这是一个假设您已经在 data 中定义的属性
-
+        this.soundEnabled = true;
+        store.dispatch('acceptSound');  // 当用户同意播放声音时，触发 Vuex action
         // 可以在此处播放一个音频文件来“解锁”浏览器的自动播放限制
         let sound = document.getElementById('notificationSound');
         sound.play();
