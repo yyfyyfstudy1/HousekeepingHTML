@@ -27,8 +27,14 @@ import Header from "../Header.vue"
 import store from '../../store'; // 导入Vuex store
 export default {
   components: {Header},
+  data() {
+    return {
+      soundEnabled: false,
+      soundPermissionRequested: false, // 新增一个状态来记录是否已经请求过权限
+    };
+  },
   mounted() {
-    this.askForSoundPermission();
+    this.checkAndAskForSoundPermission();
   },
   methods: {
     navigateToPage1() {
@@ -38,8 +44,9 @@ export default {
       this.$router.push("/findJob");
     },
     checkAndAskForSoundPermission() {
-      if (!store.getters.isSoundAccepted) {
+      if (!store.getters.isSoundAccepted && !this.soundPermissionRequested) {
         this.askForSoundPermission();
+        this.soundPermissionRequested = true; // 标记已经请求过权限
       }
     },
     askForSoundPermission() {
