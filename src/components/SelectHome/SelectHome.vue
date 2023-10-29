@@ -6,7 +6,7 @@
       <el-card class="card" shadow="hover">
         <img src="../../assets/findWorker.png" alt="Logo 1">
         <div class="card-text">
-          <h3>I am employee</h3>
+          <h3>I am employer</h3>
           <el-button type="primary" @click="navigateToPage1">post your task</el-button>
         </div>
       </el-card>

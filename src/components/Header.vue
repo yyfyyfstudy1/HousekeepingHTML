@@ -17,13 +17,12 @@
         <span class="nav-link" @click="navigateTo('/mytask')">Task Script</span>
       </div>
 
-
+    </div>
+    <div class="right-content">
       <div class="notification-wrapper">
         <img :class="{ 'shake-animation': isShaking }" src="../assets/notification.png" width="40px" height="40px" @click="gotoMessages">
         <div class="message-count">{{ messageCount }}</div>
       </div>
-    </div>
-    <div class="right-content">
       <div class="user-profile">
         <el-image
             :src="avatarUrl"
@@ -59,7 +58,7 @@
   display: inline-block; /* 使得封装器的大小适应图片大小 */
   width: 40px;
   height: 40px;
-  margin-left: 500px;
+  margin-right: 30px;
 }
 
 .message-count {
